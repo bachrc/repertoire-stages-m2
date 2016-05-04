@@ -1,10 +1,16 @@
 package ovh.dessert.tpe.repertoiredestagesm2;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import ovh.dessert.tpe.repertoiredestagesm2.entities.Entreprise;
+import ovh.dessert.tpe.repertoiredestagesm2.entities.Stagiaire;
 
 /**
  * Created by totorolepacha on 02/05/16.
@@ -16,9 +22,83 @@ public class StagesDAO extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "repertoire.db";
     private static final int DATABASE_VERSION = 1;
 
-    public StagesDAO(Context context) throws SQLException {
+    public StagesDAO(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+
+    public List<Entreprise> getAllEntreprises() throws Exception {
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<Entreprise> retour = new ArrayList<>();
+
+        Cursor results = db.rawQuery("SELECT * FROM Entreprise", null);
+        try {
+            if (results.moveToFirst()) {
+                do {
+                    Entreprise temp = new Entreprise(results.getString(0), results.getString(1), results.getString(2));
+                    retour.add(temp);
+                }while(results.moveToNext());
+            }
+        } catch(Exception e) {
+            throw new Exception("Erreur lors de l'éxecution de la requête.");
+        } finally {
+            if (results != null && !results.isClosed())
+                results.close();
+        }
+
+        return retour;
+    }
+
+    public Stagiaire getStagiaire(String login) throws Exception {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Stagiaire retour;
+
+        Cursor results = db.rawQuery("SELECT * FROM Stagiaire WHERE login= ?", new String[]{login});
+        try {
+            if (results.moveToFirst())
+                retour = new Stagiaire(results.getString(0), results.getString(1), results.getString(2), results.getString(3), results.getString(4), results.getString(5));
+            else
+                throw new Exception("Stagiaire inexistant.");
+
+        } catch(Exception e) {
+            throw new Exception("Erreur lors de l'éxecution de la requête.");
+        } finally {
+            if (results != null && !results.isClosed()) {
+                results.close();
+            }
+        }
+
+        return retour;
+    }
+
+    public Entreprise getEntreprise(String abbr) throws Exception {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Entreprise retour;
+
+        Cursor results = db.rawQuery("SELECT * FROM Entreprise WHERE abbr = ?", new String[]{abbr});
+        try {
+            if (results.moveToFirst())
+                retour = new Entreprise(results.getString(0), results.getString(1), results.getString(2));
+            else
+                throw new Exception("Entreprise non existante.");
+
+        } catch(Exception e) {
+            throw new Exception("Erreur lors de l'éxecution de la requête.");
+        } finally {
+            if (results != null && !results.isClosed()) {
+                results.close();
+            }
+        }
+
+        return retour;
+    }
+
+    public static synchronized StagesDAO getInstance(Context context) {
+        if (db == null)
+            db = new StagesDAO(context.getApplicationContext());
+
+        return db;
+    }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -26,6 +106,7 @@ public class StagesDAO extends SQLiteOpenHelper {
                 "nom_entreprise TEXT," +
                 "site_web TEXT," +
                 "abbr TEXT PRIMARY KEY)");
+
 
         db.execSQL("CREATE TABLE Localisation(" +
                 "nom TEXT," +
