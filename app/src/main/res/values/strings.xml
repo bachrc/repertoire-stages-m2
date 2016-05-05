@@ -3,4 +3,14 @@
     <string name="bonjour">Bonjour, joli étrangère.</string>
     <string name="title_activity_debug">DebugActivity</string>
     <string name="init_db">Initialiser BDD</string>
+    <string name="ent_empty">Ex. Total, BNP Paribas, etc.</string>
+    <string name="entreprise_txt">Nom</string>
+    <string name="button_send">Rechercher</string>
+    <string name="jesaispas">JENNY</string>
+    <string name="dist">Distance</string>
+    <string name="prompt">Choisir...</string>
+    <string name="from">de</string>
+    <string name="town">Ville</string>
+    <string name="title_activity_search_map">Map</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
