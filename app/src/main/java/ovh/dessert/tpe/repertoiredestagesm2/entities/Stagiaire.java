@@ -17,8 +17,12 @@ public class Stagiaire {
     private String prenom;
     private String login;
     private String promotion;
-    private String mail;
-    private String tel;
+    private String mail; // Peut être nul
+    private String tel; // Peut être nul
+
+    public Stagiaire(Cursor results) {
+        this(results.getString(0), results.getString(1), results.getString(2), results.getString(3), (results.isNull(4) ? null : results.getString(4)), (results.isNull(5) ? null : results.getString(5)));
+    }
 
     public Stagiaire(String nom, String prenom, String login, String promotion, String mail, String tel) {
         this.nom = nom;
@@ -51,7 +55,7 @@ public class Stagiaire {
 
         try {
             if (results.moveToFirst()) {
-                return new Emploi(results.getString(0), results.getString(1), results.getString(2));
+                return new Emploi(results);
             } else
                 throw new Exception("Stagiaire non employé par la suite.");
         } catch(Exception e) {
@@ -71,7 +75,7 @@ public class Stagiaire {
         try {
             if (results.moveToFirst()) {
                 do {
-                    Stage temp = new Stage(results.getString(0), results.getString(1), results.getString(2), results.getString(3), results.getString(4), Date.valueOf(results.getString(5)), Date.valueOf(results.getString(6)), results.getString(7), results.getString(8));
+                    Stage temp = new Stage(results);
                     retour.add(temp);
                 } while(results.moveToNext());
             }

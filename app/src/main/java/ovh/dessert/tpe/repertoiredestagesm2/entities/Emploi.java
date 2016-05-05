@@ -13,6 +13,10 @@ public class Emploi {
     private String stagiaire;
     private String poste;
 
+    public Emploi(Cursor results) {
+        this(results.getString(0), results.getString(1), results.getString(2));
+    }
+
     public Emploi(String entreprise, String stagiaire, String poste) {
         this.entreprise = entreprise;
         this.stagiaire = stagiaire;

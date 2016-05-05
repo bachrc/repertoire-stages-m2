@@ -34,7 +34,7 @@ public class StagesDAO extends SQLiteOpenHelper {
         try {
             if (results.moveToFirst()) {
                 do {
-                    Entreprise temp = new Entreprise(results.getString(0), results.getString(1), results.getString(2));
+                    Entreprise temp = new Entreprise(results);
                     retour.add(temp);
                 }while(results.moveToNext());
             }
@@ -55,7 +55,7 @@ public class StagesDAO extends SQLiteOpenHelper {
         Cursor results = db.rawQuery("SELECT * FROM Stagiaire WHERE login= ?", new String[]{login});
         try {
             if (results.moveToFirst())
-                retour = new Stagiaire(results.getString(0), results.getString(1), results.getString(2), results.getString(3), results.getString(4), results.getString(5));
+                retour = new Stagiaire(results);
             else
                 throw new Exception("Stagiaire inexistant.");
 
@@ -77,7 +77,7 @@ public class StagesDAO extends SQLiteOpenHelper {
         Cursor results = db.rawQuery("SELECT * FROM Entreprise WHERE abbr = ?", new String[]{abbr});
         try {
             if (results.moveToFirst())
-                retour = new Entreprise(results.getString(0), results.getString(1), results.getString(2));
+                retour = new Entreprise(results);
             else
                 throw new Exception("Entreprise non existante.");
 

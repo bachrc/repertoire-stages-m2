@@ -11,14 +11,18 @@ import ovh.dessert.tpe.repertoiredestagesm2.StagesDAO;
  */
 public class Stage {
     private String sujet;
-    private String mots_cles;
-    private String lienRapport;
+    private String mots_cles; // Peut être null
+    private String lienRapport; // Peut être null
     private String stagiaire;
     private String entreprise;
     private Date dateDebut;
     private Date dateFin;
-    private String nomTuteur;
-    private String nomMaitre;
+    private String nomTuteur; // Peut être null
+    private String nomMaitre; // Peut être null
+
+    public Stage(Cursor results) {
+        this(results.getString(0), (results.isNull(1) ? null : results.getString(1)), (results.isNull(2) ? null : results.getString(2)), results.getString(3), results.getString(4), Date.valueOf(results.getString(5)), Date.valueOf(results.getString(6)), (results.isNull(7) ? null : results.getString(7)), (results.isNull(8) ? null : results.getString(8)));
+    }
 
     public Stage(String sujet, String mots_cles, String lienRapport, String stagiaire, String entreprise, Date dateDebut, Date dateFin, String nomTuteur, String nomMaitre) {
         this.sujet = sujet;

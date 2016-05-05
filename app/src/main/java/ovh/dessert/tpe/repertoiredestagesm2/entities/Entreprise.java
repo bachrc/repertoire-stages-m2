@@ -17,6 +17,10 @@ public class Entreprise {
     private String siteweb;
     private String abbr;
 
+    public Entreprise(Cursor results) {
+        this(results.getString(0), results.getString(1), results.getString(2));
+    }
+
     public Entreprise(String nom, String siteweb, String abbr) {
         this.nom = nom;
         this.siteweb = siteweb;
@@ -30,7 +34,7 @@ public class Entreprise {
         try {
             if (results.moveToFirst()) {
                 do {
-                    Contact temp = new Contact(results.getInt(0), results.getString(1), results.getString(2), results.getString(3), results.getString(4));
+                    Contact temp = new Contact(results);
                     retour.add(temp);
                 }while(results.moveToNext());
             }
@@ -52,7 +56,7 @@ public class Entreprise {
         try {
             if (results.moveToFirst()) {
                 do {
-                    Localisation temp = new Localisation(results.getDouble(0), results.getDouble(1), results.getString(2), results.getString(3));
+                    Localisation temp = new Localisation(results);
                     retour.add(temp);
                 }while(results.moveToNext());
             }
@@ -74,7 +78,7 @@ public class Entreprise {
         try {
             if (results.moveToFirst()) {
                 do {
-                    Stage temp = new Stage(results.getString(0), results.getString(1), results.getString(2), results.getString(3), results.getString(4), Date.valueOf(results.getString(5)), Date.valueOf(results.getString(6)), results.getString(7), results.getString(8));
+                    Stage temp = new Stage(results);
                     retour.add(temp);
                 }while(results.moveToNext());
             }
