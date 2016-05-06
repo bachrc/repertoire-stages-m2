@@ -20,7 +20,7 @@ public class StagesDAO extends SQLiteOpenHelper {
     private static StagesDAO db = null;
 
     private static final String DATABASE_NAME = "repertoire.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public StagesDAO(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -122,7 +122,8 @@ public class StagesDAO extends SQLiteOpenHelper {
                 "nom TEXT," +
                 "prenom TEXT NULL," +
                 "entreprise TEXT," +
-                "telephone TEXT," +
+                "telephone TEXT NULL," +
+                "mail TEXT NULL" +
                 "FOREIGN KEY(entreprise) REFERENCES Entreprise(abbr))");
 
         db.execSQL("CREATE TABLE Stagiaire(" +

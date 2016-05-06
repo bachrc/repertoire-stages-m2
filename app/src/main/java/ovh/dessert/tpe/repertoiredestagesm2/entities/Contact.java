@@ -13,18 +13,22 @@ public class Contact {
     private String nom;
     private String prenom; // Peut être nul
     private String entreprise;
-    private String telephone;
+    private String telephone; // Peut être nul
+    private String mail; // Peut être nul
+    private String poste;
 
     public Contact(Cursor results) {
-        this(results.getInt(0), results.getString(1), (results.isNull(2) ? null : results.getString(2)), results.getString(3), results.getString(4));
+        this(results.getInt(0), results.getString(1), (results.isNull(2) ? null : results.getString(2)), results.getString(3), (results.isNull(4) ? null : results.getString(4)), (results.isNull(5) ? null : results.getString(5)), results.getString(6));
     }
 
-    public Contact(int civilite, String nom, String prenom, String entreprise, String telephone) {
+    public Contact(int civilite, String nom, String prenom, String entreprise, String telephone, String mail, String poste) {
         this.civilite = civilite;
         this.nom = nom;
         this.prenom = prenom;
         this.entreprise = entreprise;
         this.telephone = telephone;
+        this.mail = mail;
+        this.poste = poste;
     }
 
     public Entreprise getEntreprise() throws Exception{
@@ -45,5 +49,13 @@ public class Contact {
 
     public String getTelephone() {
         return this.telephone;
+    }
+
+    public String getMail() {
+        return this.mail;
+    }
+
+    public String getPoste() {
+        return this.poste;
     }
 }
