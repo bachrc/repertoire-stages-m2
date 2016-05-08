@@ -4,7 +4,10 @@ import android.database.sqlite.SQLiteDatabase;
 
 import org.junit.Test;
 
+import java.util.Date;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import static org.junit.Assert.*;
 
@@ -14,12 +17,16 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
 
     @Test
-    public void initDB() {
+    public void testDB() {
         try {
-            StagesDAO test = new StagesDAO(null);
-            SQLiteDatabase db = test.getWritableDatabase();
+            SimpleDateFormat test = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
+            String paramDateAsString = "25/12/2007";
+
+            Date myDate = test.parse(paramDateAsString);
+            System.out.println(myDate.toString());
             assertTrue(true);
-        }catch(SQLException e) {
+        }catch(Exception e) {
+            e.printStackTrace();
             assertTrue(false);
         }
     }

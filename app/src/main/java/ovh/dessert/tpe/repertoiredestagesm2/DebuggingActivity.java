@@ -21,7 +21,7 @@ public class DebuggingActivity extends AppCompatActivity {
     public void initDB(View v) {
         final TextView textViewToChange = (TextView) findViewById(R.id.textView);
         try {
-            StagesDAO test = new StagesDAO(getApplicationContext());
+            StagesDAO test = StagesDAO.getInstance(getApplicationContext());
             SQLiteDatabase db = test.getWritableDatabase();
             textViewToChange.setText("C'est coule. Il y a " + db.toString());
         }catch(Exception e) {
