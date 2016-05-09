@@ -1,4 +1,4 @@
-Nom,Prénom,Login,Promotion,Mail,Tel,Employeur
-Bacha,Yohann,by120823,2017,,,
-Folatre,Romain,fr120159,2017,romain.folatre@univ-lehavre.fr,0601020304,
-Goulet,Merlin,gm129308,2017,,,
+Nom,Prénom,Login,Promotion,Mail,Tel,Employeur,Poste
+Bacha,Yohann,by120823,2017,,,,
+Folatre,Romain,fr120159,2017,romain.folatre@univ-lehavre.fr,0601020304,,
+Goulet,Merlin,gm129308,2017,,,,

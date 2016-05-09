@@ -240,10 +240,10 @@ public class StagesDAO extends SQLiteOpenHelper {
         CSVReader contactReader, entrepriseReader, stageReader, stagiaireReader;
         switch (uc) {
             case OFFLINE: // Dans le cas où l'update doive se faire en offline
-                contactReader = new CSVReader(new InputStreamReader(context.getResources().openRawResource(R.raw.contact)));
-                entrepriseReader = new CSVReader(new InputStreamReader(context.getResources().openRawResource(R.raw.entreprise)));
-                stageReader = new CSVReader(new InputStreamReader(context.getResources().openRawResource(R.raw.stage)));
-                stagiaireReader = new CSVReader(new InputStreamReader(context.getResources().openRawResource(R.raw.stagiaire)));
+                contactReader = new CSVReader(new InputStreamReader(context.getResources().openRawResource(R.raw.contact)), ',', '"', 1);
+                entrepriseReader = new CSVReader(new InputStreamReader(context.getResources().openRawResource(R.raw.entreprise)), ',', '"', 1);
+                stageReader = new CSVReader(new InputStreamReader(context.getResources().openRawResource(R.raw.stage)), ',', '"', 1);
+                stagiaireReader = new CSVReader(new InputStreamReader(context.getResources().openRawResource(R.raw.stagiaire)), ',', '"', 1);
                 break;
             case ONLINE:
                 // TODO: 07/05/16 Télécharger les CSV depuis le serveur
@@ -264,16 +264,16 @@ public class StagesDAO extends SQLiteOpenHelper {
             this.readStagiaire(stagiaireReader, db);
             this.readStage(stageReader, db);
             this.readContact(contactReader, db);
-
+            db.setTransactionSuccessful();
         }catch(SQLiteException sqe) {
-            db.endTransaction();
             throw new InvalidCSVException(InvalidCSVException.Cause.REFERENCE_INVALIDE, sqe.getLocalizedMessage());
         }catch(InvalidCSVException ice) {
-            db.endTransaction();
             throw ice;
         }catch (IOException ioe){
-            db.endTransaction();
             throw new InvalidCSVException(InvalidCSVException.Cause.VALEUR_INVALIDE, "");
+        }finally {
+            db.endTransaction();
+            db.close();
         }
     }
 
@@ -290,7 +290,7 @@ public class StagesDAO extends SQLiteOpenHelper {
                 "longitude REAL NULL," +
                 "adresse TEXT NULL," +
                 "entreprise TEXT," +
-                "FOREIGN KEY (entreprise) REFERENCES Entreprise(abbr)");
+                "FOREIGN KEY (entreprise) REFERENCES Entreprise(abbr))");
 
         db.execSQL("CREATE TABLE Contact(" +
                 "civilite INTEGER," +
@@ -298,8 +298,8 @@ public class StagesDAO extends SQLiteOpenHelper {
                 "prenom TEXT NULL," +
                 "entreprise TEXT," +
                 "telephone TEXT NULL," +
-                "mail TEXT NULL" +
-                "poste TEXT" +
+                "mail TEXT NULL," +
+                "poste TEXT," +
                 "FOREIGN KEY(entreprise) REFERENCES Entreprise(abbr))");
 
         db.execSQL("CREATE TABLE Stagiaire(" +
