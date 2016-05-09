@@ -14,6 +14,7 @@ import com.opencsv.CSVReader;
 import java.util.List;
 
 import ovh.dessert.tpe.repertoiredestagesm2.entities.Entreprise;
+import ovh.dessert.tpe.repertoiredestagesm2.entities.Localisation;
 
 public class DebuggingActivity extends AppCompatActivity {
 
@@ -26,10 +27,20 @@ public class DebuggingActivity extends AppCompatActivity {
     public void initDB(View v) {
         final TextView textViewToChange = (TextView) findViewById(R.id.textView);
         try {
+            String aAfficher = "";
             StagesDAO test = StagesDAO.getInstance(getApplicationContext());
-            //test.update(StagesDAO.UpdateContext.OFFLINE, getApplicationContext());
+            test.update (StagesDAO.UpdateContext.OFFLINE, getApplicationContext());
             List<Entreprise> ent = test.getAllEntreprises();
-            textViewToChange.setText("C'est coule : " + ent.size());
+            aAfficher = "C'est coule : " + ent.size() + "\n";
+            if(!ent.isEmpty()) {
+                for(Entreprise e:ent) {
+                    aAfficher += e.getNom() + '\n';
+                    for(Localisation l : e.getLocalisations()) {
+                         aAfficher += l.getNom() + '\n';
+                    }
+                }
+            }
+            textViewToChange.setText(aAfficher);
         }catch(Exception e) {
             textViewToChange.setText("C'est pas coule.");
             Log.d("initdb", e.toString());

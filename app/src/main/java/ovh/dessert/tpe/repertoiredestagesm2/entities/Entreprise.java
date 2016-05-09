@@ -61,6 +61,7 @@ public class Entreprise {
                 }while(results.moveToNext());
             }
         } catch(Exception e) {
+            e.printStackTrace();
             throw new Exception("Erreur lors de l'éxecution de la requête.");
         } finally {
             if (results != null && !results.isClosed()) {

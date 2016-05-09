@@ -9,14 +9,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.opencsv.CSVReader;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.SQLException;
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -119,20 +117,20 @@ public class StagesDAO extends SQLiteOpenHelper {
             if(nextLine.length % 4 != 3) // Si la taille du fichier est invalide
                 throw new InvalidCSVException(InvalidCSVException.Cause.LONGUEUR_INVALIDE, "Fichier " + fichier + " ligne " + i);
             ContentValues toInsert = new ContentValues();
-            toInsert.put("nom_entreprise", nextLine[0]);
-            toInsert.put("site_web", nextLine[1]);
-            toInsert.put("abbr", nextLine[2]);
+            putIfNull(toInsert,"nom_entreprise", nextLine[0]);
+            putIfNull(toInsert,"site_web", nextLine[1]);
+            putIfNull(toInsert,"abbr", nextLine[2]);
             db.insertOrThrow("entreprise", null, toInsert);
 
             for (int j = 3; j < nextLine.length; j+=4) {
                 if(nextLine[j].isEmpty()) continue; // S'il n'y a pas de nom, on skip
                 toInsert = new ContentValues();
-                toInsert.put("nom", nextLine[j]);
+                putIfNull(toInsert,"nom", nextLine[j]);
                 // TODO: 08/05/16 Recupérer les LatLng à partir d'une adresse
-                toInsert.put("latitude", nextLine[j+1]);
-                toInsert.put("longitude", nextLine[j+2]);
-                toInsert.put("adresse", nextLine[j+3]);
-                toInsert.put("entreprise", nextLine[2]);
+                putIfNull(toInsert,"latitude", nextLine[j+1]);
+                putIfNull(toInsert,"longitude", nextLine[j+2]);
+                putIfNull(toInsert,"adresse", nextLine[j+3]);
+                putIfNull(toInsert,"entreprise", nextLine[2]);
                 db.insertOrThrow("Localisation", null, toInsert);
             }
             i++;
@@ -150,20 +148,20 @@ public class StagesDAO extends SQLiteOpenHelper {
 
             ContentValues toInsert = new ContentValues();
 
-            toInsert.put("nom", nextLine[0]);
-            toInsert.put("prenom", nextLine[1]);
-            toInsert.put("login", nextLine[2]);
-            toInsert.put("promotion", nextLine[3]);
-            toInsert.put("mail", nextLine[4]);
-            toInsert.put("tel", nextLine[5]);
+            putIfNull(toInsert,"nom", nextLine[0]);
+            putIfNull(toInsert,"prenom", nextLine[1]);
+            putIfNull(toInsert,"login", nextLine[2]);
+            putIfNull(toInsert,"promotion", nextLine[3]);
+            putIfNull(toInsert,"mail", nextLine[4]);
+            putIfNull(toInsert,"tel", nextLine[5]);
 
             db.insertOrThrow("Stagiaire", null, toInsert);
 
             if(!nextLine[6].isEmpty() && !nextLine[7].isEmpty()) {
                 toInsert = new ContentValues();
-                toInsert.put("entreprise", nextLine[6]);
-                toInsert.put("poste", nextLine[7]);
-                toInsert.put("stagiaire", nextLine[2]);
+                putIfNull(toInsert,"entreprise", nextLine[6]);
+                putIfNull(toInsert,"poste", nextLine[7]);
+                putIfNull(toInsert,"stagiaire", nextLine[2]);
 
                 db.insertOrThrow("Emploi", null, toInsert);
             }
@@ -187,15 +185,15 @@ public class StagesDAO extends SQLiteOpenHelper {
                 Date fin = new Date(test.parse(nextLine[4]).getTime());
 
                 ContentValues toInsert = new ContentValues();
-                toInsert.put("sujet", nextLine[0]);
-                toInsert.put("mots_cles", nextLine[1]);
-                toInsert.put("lien_rapport", nextLine[2]);
-                toInsert.put("date_debut", debut.toString());
-                toInsert.put("date_fin", fin.toString());
-                toInsert.put("nom_maitre_stage", nextLine[5]);
-                toInsert.put("nom_tuteur_stage", nextLine[6]);
-                toInsert.put("stagiaire", nextLine[7]);
-                toInsert.put("entreprise", nextLine[8]);
+                putIfNull(toInsert,"sujet", nextLine[0]);
+                putIfNull(toInsert,"mots_cles", nextLine[1]);
+                putIfNull(toInsert,"lien_rapport", nextLine[2]);
+                putIfNull(toInsert,"date_debut", debut.toString());
+                putIfNull(toInsert,"date_fin", fin.toString());
+                putIfNull(toInsert,"nom_maitre_stage", nextLine[5]);
+                putIfNull(toInsert,"nom_tuteur_stage", nextLine[6]);
+                putIfNull(toInsert,"stagiaire", nextLine[7]);
+                putIfNull(toInsert,"entreprise", nextLine[8]);
 
                 db.insertOrThrow("Stage", null, toInsert);
             } catch(ParseException pe) {
@@ -223,12 +221,12 @@ public class StagesDAO extends SQLiteOpenHelper {
             else throw new InvalidCSVException(InvalidCSVException.Cause.VALEUR_INVALIDE, "Ligne " + i + ", civilité invalide");
 
             toInsert.put("civilite", civ);
-            toInsert.put("nom", nextLine[1]);
-            toInsert.put("prenom", nextLine[2]);
-            toInsert.put("entreprise", nextLine[3]);
-            toInsert.put("telephone", nextLine[4]);
-            toInsert.put("mail", nextLine[5]);
-            toInsert.put("poste", nextLine[6]);
+            putIfNull(toInsert,"nom", nextLine[1]);
+            putIfNull(toInsert,"prenom", nextLine[2]);
+            putIfNull(toInsert,"entreprise", nextLine[3]);
+            putIfNull(toInsert,"telephone", nextLine[4]);
+            putIfNull(toInsert,"mail", nextLine[5]);
+            putIfNull(toInsert,"poste", nextLine[6]);
 
             db.insertOrThrow("Contact", null, toInsert);
 
@@ -252,8 +250,6 @@ public class StagesDAO extends SQLiteOpenHelper {
                 throw new IllegalArgumentException("Cause invalide.");
         }
 
-        // TODO: 08/05/16 Faire des toInsert.putNull si la String est vide
-
         SQLiteDatabase db = StagesDAO.getInstance(context).getWritableDatabase();
         db.beginTransaction();
         try {
@@ -274,6 +270,22 @@ public class StagesDAO extends SQLiteOpenHelper {
         }finally {
             db.endTransaction();
             db.close();
+        }
+    }
+
+    private void putIfNull(ContentValues cv, String champ, String valeur) {
+        if(valeur.isEmpty())
+            cv.putNull(champ);
+        else
+            cv.put(champ, valeur);
+    }
+
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        if (!db.isReadOnly()) {
+            // Enable foreign key constraints
+            db.execSQL("PRAGMA foreign_keys=ON;");
         }
     }
 
