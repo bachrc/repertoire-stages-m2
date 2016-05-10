@@ -1,8 +1,6 @@
 package ovh.dessert.tpe.repertoiredestagesm2;
 
 import android.content.ContentValues;
-import android.content.res.Resources;
-import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 
 import com.opencsv.CSVReader;
@@ -10,17 +8,16 @@ import com.opencsv.CSVReader;
 import org.junit.Test;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.ParseException;
-import java.util.Date;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import ovh.dessert.tpe.repertoiredestagesm2.exceptions.InvalidCSVException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * To work on unit tests, switch the Test Artifact in the Build Variants view.

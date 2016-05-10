@@ -47,8 +47,8 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 // Toast.makeText(MainActivity.this,(String) sp.getItemAtPosition(sp.getSelectedItemPosition()) + " de " + city.getText().toString(), Toast.LENGTH_LONG).show();
 
-                Intent intent = new Intent(MenuActivity.this, SearchMap.class);
-                // Intent intent = new Intent(MenuActivity.this, ListActivity.class);
+                // Intent intent = new Intent(MenuActivity.this, SearchMap.class);
+                Intent intent = new Intent(MenuActivity.this, EntreListeActivity.class);
                 intent.putExtra("<Distance>", (String) sp.getItemAtPosition(sp.getSelectedItemPosition()));
                 intent.putExtra("<City>", city.getText().toString());
                 startActivity(intent);

@@ -17,6 +17,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".DebuggingActivity"></activity>
+        <activity
+            android:name=".SearchMap"
+            android:label="@string/title_activity_search_map" />
+        <activity android:name=".EntreListeActivity">
+
+        </activity>
     </application>
 
 </manifest>
