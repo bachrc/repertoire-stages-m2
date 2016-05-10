@@ -1,16 +1,26 @@
 package ovh.dessert.tpe.repertoiredestagesm2;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.sql.SQLException;
+import com.opencsv.CSVReader;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import ovh.dessert.tpe.repertoiredestagesm2.entities.Entreprise;
 import ovh.dessert.tpe.repertoiredestagesm2.entities.Stagiaire;
+import ovh.dessert.tpe.repertoiredestagesm2.exceptions.InvalidCSVException;
 
 /**
  * Created by totorolepacha on 02/05/16.
@@ -20,9 +30,9 @@ public class StagesDAO extends SQLiteOpenHelper {
     private static StagesDAO db = null;
 
     private static final String DATABASE_NAME = "repertoire.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
-    public StagesDAO(Context context) {
+    private StagesDAO(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -99,6 +109,185 @@ public class StagesDAO extends SQLiteOpenHelper {
         return db;
     }
 
+    private void readEntreprise(CSVReader reader, SQLiteDatabase db) throws Exception {
+        int i = 1;
+        String[] nextLine;
+        String fichier = "entreprise.csv";
+        while((nextLine = reader.readNext()) != null) {
+            if(nextLine.length % 4 != 3) // Si la taille du fichier est invalide
+                throw new InvalidCSVException(InvalidCSVException.Cause.LONGUEUR_INVALIDE, "Fichier " + fichier + " ligne " + i);
+            ContentValues toInsert = new ContentValues();
+            putIfNull(toInsert,"nom_entreprise", nextLine[0]);
+            putIfNull(toInsert,"site_web", nextLine[1]);
+            putIfNull(toInsert,"abbr", nextLine[2]);
+            db.insertOrThrow("entreprise", null, toInsert);
+
+            for (int j = 3; j < nextLine.length; j+=4) {
+                if(nextLine[j].isEmpty()) continue; // S'il n'y a pas de nom, on skip
+                toInsert = new ContentValues();
+                putIfNull(toInsert,"nom", nextLine[j]);
+                // TODO: 08/05/16 Recupérer les LatLng à partir d'une adresse
+                putIfNull(toInsert,"latitude", nextLine[j+1]);
+                putIfNull(toInsert,"longitude", nextLine[j+2]);
+                putIfNull(toInsert,"adresse", nextLine[j+3]);
+                putIfNull(toInsert,"entreprise", nextLine[2]);
+                db.insertOrThrow("Localisation", null, toInsert);
+            }
+            i++;
+        }
+    }
+
+    private void readStagiaire(CSVReader reader, SQLiteDatabase db) throws Exception {
+        String fichier = "stagiaire.csv";
+        String[] nextLine;
+        int i = 1;
+
+        while((nextLine = reader.readNext()) != null) {
+            if (nextLine.length != 8) // Si la taille du fichier est invalide
+                throw new InvalidCSVException(InvalidCSVException.Cause.LONGUEUR_INVALIDE, "Fichier " + fichier + " ligne " + i);
+
+            ContentValues toInsert = new ContentValues();
+
+            putIfNull(toInsert,"nom", nextLine[0]);
+            putIfNull(toInsert,"prenom", nextLine[1]);
+            putIfNull(toInsert,"login", nextLine[2]);
+            putIfNull(toInsert,"promotion", nextLine[3]);
+            putIfNull(toInsert,"mail", nextLine[4]);
+            putIfNull(toInsert,"tel", nextLine[5]);
+
+            db.insertOrThrow("Stagiaire", null, toInsert);
+
+            if(!nextLine[6].isEmpty() && !nextLine[7].isEmpty()) {
+                toInsert = new ContentValues();
+                putIfNull(toInsert,"entreprise", nextLine[6]);
+                putIfNull(toInsert,"poste", nextLine[7]);
+                putIfNull(toInsert,"stagiaire", nextLine[2]);
+
+                db.insertOrThrow("Emploi", null, toInsert);
+            }
+            i++;
+        }
+    }
+
+    private void readStage(CSVReader reader, SQLiteDatabase db) throws Exception {
+        String fichier = "stage.csv";
+        String[] nextLine;
+        int i = 1;
+
+        while((nextLine = reader.readNext()) != null) {
+            if(nextLine.length != 9) // Si la taille du fichier est invalide
+                throw new InvalidCSVException(InvalidCSVException.Cause.LONGUEUR_INVALIDE, "Fichier " + fichier + " ligne " + i);
+
+            try {
+                SimpleDateFormat test = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE);
+
+                Date debut = new Date(test.parse(nextLine[3]).getTime());
+                Date fin = new Date(test.parse(nextLine[4]).getTime());
+
+                ContentValues toInsert = new ContentValues();
+                putIfNull(toInsert,"sujet", nextLine[0]);
+                putIfNull(toInsert,"mots_cles", nextLine[1]);
+                putIfNull(toInsert,"lien_rapport", nextLine[2]);
+                putIfNull(toInsert,"date_debut", debut.toString());
+                putIfNull(toInsert,"date_fin", fin.toString());
+                putIfNull(toInsert,"nom_maitre_stage", nextLine[5]);
+                putIfNull(toInsert,"nom_tuteur_stage", nextLine[6]);
+                putIfNull(toInsert,"stagiaire", nextLine[7]);
+                putIfNull(toInsert,"entreprise", nextLine[8]);
+
+                db.insertOrThrow("Stage", null, toInsert);
+            } catch(ParseException pe) {
+                throw new InvalidCSVException(InvalidCSVException.Cause.VALEUR_INVALIDE, "Fichier stage.csv ligne " + i + " : Date invalide (jj/MM/aaaa)");
+            } catch(SQLiteException ex) {
+                throw ex;
+            }
+            i++;
+        }
+    }
+
+    private void readContact(CSVReader reader, SQLiteDatabase db) throws Exception {
+        String fichier = "contact.csv";
+        String[] nextLine;
+        int i = 1;
+
+        while ((nextLine = reader.readNext()) != null) {
+            if (nextLine.length != 7) // Si la taille du fichier est invalide
+                throw new InvalidCSVException(InvalidCSVException.Cause.LONGUEUR_INVALIDE, "Fichier " + fichier + " ligne " + i);
+
+            ContentValues toInsert = new ContentValues();
+            int civ;
+            if (nextLine[0].toLowerCase().equals("monsieur")) civ = 0;
+            else if (nextLine[0].toLowerCase().equals("madame")) civ = 1;
+            else throw new InvalidCSVException(InvalidCSVException.Cause.VALEUR_INVALIDE, "Ligne " + i + ", civilité invalide");
+
+            toInsert.put("civilite", civ);
+            putIfNull(toInsert,"nom", nextLine[1]);
+            putIfNull(toInsert,"prenom", nextLine[2]);
+            putIfNull(toInsert,"entreprise", nextLine[3]);
+            putIfNull(toInsert,"telephone", nextLine[4]);
+            putIfNull(toInsert,"mail", nextLine[5]);
+            putIfNull(toInsert,"poste", nextLine[6]);
+
+            db.insertOrThrow("Contact", null, toInsert);
+
+            i++;
+        }
+    }
+
+    public void update(UpdateContext uc, Context context) throws Exception {
+        CSVReader contactReader, entrepriseReader, stageReader, stagiaireReader;
+        switch (uc) {
+            case OFFLINE: // Dans le cas où l'update doive se faire en offline
+                contactReader = new CSVReader(new InputStreamReader(context.getResources().openRawResource(R.raw.contact)), ',', '"', 1);
+                entrepriseReader = new CSVReader(new InputStreamReader(context.getResources().openRawResource(R.raw.entreprise)), ',', '"', 1);
+                stageReader = new CSVReader(new InputStreamReader(context.getResources().openRawResource(R.raw.stage)), ',', '"', 1);
+                stagiaireReader = new CSVReader(new InputStreamReader(context.getResources().openRawResource(R.raw.stagiaire)), ',', '"', 1);
+                break;
+            case ONLINE:
+                // TODO: 07/05/16 Télécharger les CSV depuis le serveur
+                throw new UnsupportedOperationException("Téléchargement non opérationnel");
+            default:
+                throw new IllegalArgumentException("Cause invalide.");
+        }
+
+        SQLiteDatabase db = StagesDAO.getInstance(context).getWritableDatabase();
+        db.beginTransaction();
+        try {
+            this.reinit(db);
+            this.onCreate(db);
+            // On initialise les entreprises
+            this.readEntreprise(entrepriseReader, db);
+            this.readStagiaire(stagiaireReader, db);
+            this.readStage(stageReader, db);
+            this.readContact(contactReader, db);
+            db.setTransactionSuccessful();
+        }catch(SQLiteException sqe) {
+            throw new InvalidCSVException(InvalidCSVException.Cause.REFERENCE_INVALIDE, sqe.getLocalizedMessage());
+        }catch(InvalidCSVException ice) {
+            throw ice;
+        }catch (IOException ioe){
+            throw new InvalidCSVException(InvalidCSVException.Cause.VALEUR_INVALIDE, "");
+        }finally {
+            db.endTransaction();
+            db.close();
+        }
+    }
+
+    private void putIfNull(ContentValues cv, String champ, String valeur) {
+        if(valeur.isEmpty())
+            cv.putNull(champ);
+        else
+            cv.put(champ, valeur);
+    }
+
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+        if (!db.isReadOnly()) {
+            // Enable foreign key constraints
+            db.execSQL("PRAGMA foreign_keys=ON;");
+        }
+    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -107,22 +296,22 @@ public class StagesDAO extends SQLiteOpenHelper {
                 "site_web TEXT," +
                 "abbr TEXT PRIMARY KEY)");
 
-
         db.execSQL("CREATE TABLE Localisation(" +
                 "nom TEXT," +
                 "latitude REAL NULL," +
                 "longitude REAL NULL," +
                 "adresse TEXT NULL," +
                 "entreprise TEXT," +
-                "FOREIGN KEY (entreprise) REFERENCES Entreprise(abbr)," +
-                "CHECK (adresse is not null or (latitude is not null and longitude is not null)))");
+                "FOREIGN KEY (entreprise) REFERENCES Entreprise(abbr))");
 
         db.execSQL("CREATE TABLE Contact(" +
                 "civilite INTEGER," +
                 "nom TEXT," +
                 "prenom TEXT NULL," +
                 "entreprise TEXT," +
-                "telephone TEXT," +
+                "telephone TEXT NULL," +
+                "mail TEXT NULL," +
+                "poste TEXT," +
                 "FOREIGN KEY(entreprise) REFERENCES Entreprise(abbr))");
 
         db.execSQL("CREATE TABLE Stagiaire(" +
@@ -155,17 +344,23 @@ public class StagesDAO extends SQLiteOpenHelper {
 
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    private void reinit(SQLiteDatabase db) {
         db.execSQL("DROP TABLE IF EXISTS Stage");
         db.execSQL("DROP TABLE IF EXISTS Emploi");
         db.execSQL("DROP TABLE IF EXISTS Stagiaire");
         db.execSQL("DROP TABLE IF EXISTS Contact");
         db.execSQL("DROP TABLE IF EXISTS Localisation");
         db.execSQL("DROP TABLE IF EXISTS Entreprise");
+    }
 
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        reinit(db);
         onCreate(db);
     }
 
+    public enum UpdateContext {
+        OFFLINE, ONLINE
+    }
 
 }

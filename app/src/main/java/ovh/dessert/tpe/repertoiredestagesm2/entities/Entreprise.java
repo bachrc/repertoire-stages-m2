@@ -14,11 +14,11 @@ import ovh.dessert.tpe.repertoiredestagesm2.StagesDAO;
  */
 public class Entreprise {
     private String nom;
-    private String siteweb;
+    private String siteweb; // Peut être nul
     private String abbr;
 
     public Entreprise(Cursor results) {
-        this(results.getString(0), results.getString(1), results.getString(2));
+        this(results.getString(0), (results.isNull(1) ? null : results.getString(1)), results.getString(2));
     }
 
     public Entreprise(String nom, String siteweb, String abbr) {
@@ -61,6 +61,7 @@ public class Entreprise {
                 }while(results.moveToNext());
             }
         } catch(Exception e) {
+            e.printStackTrace();
             throw new Exception("Erreur lors de l'éxecution de la requête.");
         } finally {
             if (results != null && !results.isClosed()) {
