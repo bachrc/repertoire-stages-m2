@@ -1,15 +1,10 @@
 package ovh.dessert.tpe.repertoiredestagesm2;
 
-import android.database.sqlite.SQLiteAbortException;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
-
-import com.opencsv.CSVReader;
 
 import java.util.List;
 

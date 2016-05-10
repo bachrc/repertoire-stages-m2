@@ -3,7 +3,6 @@ package ovh.dessert.tpe.repertoiredestagesm2.entities;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
