@@ -39,6 +39,8 @@ public class Contact {
         return civilite;
     }
 
+    public String toString() { return ((civilite == 0)? "M. " : "Mme ") + ((prenom != null)? prenom + " " : "") + nom; }
+
     public String getNom() {
         return nom;
     }

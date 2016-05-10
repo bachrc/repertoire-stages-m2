@@ -5,11 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import ovh.dessert.tpe.repertoiredestagesm2.R;
 import ovh.dessert.tpe.repertoiredestagesm2.StagesDAO;
+import ovh.dessert.tpe.repertoiredestagesm2.entities.Contact;
 import ovh.dessert.tpe.repertoiredestagesm2.entities.Entreprise;
 
 /**
@@ -59,6 +63,38 @@ public class EntrepriseAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return null;
+        LinearLayout item;
+        TextView nom, contact;
+        // TextView distance;
+
+        if(convertView == null){
+            item = (LinearLayout) mInflater.inflate(R.layout.entre_list_item, parent, false);
+        }else{
+            item = (LinearLayout) convertView;
+        }
+
+        nom = (TextView) item.findViewById(R.id.entreprise_nom);
+        contact = (TextView) item.findViewById(R.id.entreprise_contact);
+        // distance = (TextView) item.findViewById(R.id.distance);
+
+        String title = entreprises.get(position).getNom();
+
+        try {
+            title += " (" + entreprises.get(position).getStages().size() + ")";
+        } catch (Exception e) {
+            title += " (?)";
+        }
+
+        nom.setText(title);
+
+        try {
+            List<Contact> contacts = entreprises.get(position).getContacts();
+            contact.setText(entreprises.get(position).getContacts().get(0).toString());
+        } catch (Exception e) {
+            contact.setText("Aucun contact enregistré");
+        }
+
+
+        return item;
     }
 }
