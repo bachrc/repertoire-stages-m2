@@ -18,6 +18,8 @@
 
     <string name="jesaispas">JENNY</string>
 
+    <string name="map">Carte</string>
+
     <string name="prompt">Choisir…</string>
 
     <string name="search">Rechercher</string>
@@ -28,7 +30,7 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_menu">Recherche avancée</string>
     <string name="title_activity_entreliste">Résultats de la recherche</string>
-    <string name="title_activity_search_map">Map</string>
+    <string name="title_activity_search_map">Carte</string>
     <string name="town">Ville</string>
 
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyALIyJycOHYyIcR8qqTa2jP3oB1eF25hzI</string>

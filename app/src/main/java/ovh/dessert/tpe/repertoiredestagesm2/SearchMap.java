@@ -22,12 +22,13 @@ public class SearchMap extends FragmentActivity implements OnMapReadyCallback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         city = getIntent().getStringExtra("<City>");
         distance = getIntent().getStringExtra("<Distance>").split("[a-z ]")[0];
 
         // Toast.makeText(SearchMap.this, distance + "FLUFF" + city, Toast.LENGTH_LONG).show();
         setContentView(R.layout.activity_search_map);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -53,7 +54,7 @@ public class SearchMap extends FragmentActivity implements OnMapReadyCallback {
             if (addresses.get(0).hasLatitude() && addresses.get(0).hasLongitude()) {
                 centre = new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude());
                 mMap.addMarker(new MarkerOptions().position(centre).title("Centre"));
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(centre));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(centre, 13.0f));
             }
         } catch (Exception e) {
 

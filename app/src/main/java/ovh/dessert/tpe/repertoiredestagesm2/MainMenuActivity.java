@@ -17,4 +17,11 @@ public class MainMenuActivity extends AppCompatActivity {
         Intent intent = new Intent(MainMenuActivity.this, MenuActivity.class);
         startActivity(intent);
     }
+
+    public void openMap(View v){
+        Intent intent = new Intent(MainMenuActivity.this, SearchMap.class);
+        intent.putExtra("<Distance>", "10 km");
+        intent.putExtra("<City>", "Le Havre, France");
+        startActivity(intent);
+    }
 }

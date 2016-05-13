@@ -87,14 +87,15 @@
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="100dp"
                 android:textColor="@android:color/white"
-                android:drawableTop="@drawable/ic_settings_black_72dp"
+                android:drawableTop="@drawable/ic_place_black_72dp"
                 android:background="@color/colorPrimary"
                 android:paddingLeft="0dp"
                 android:paddingRight="0dp"
                 android:paddingStart="0dp"
                 android:paddingEnd="0dp"
                 android:layout_gravity="bottom"
-                android:text="Inconnu"
+                android:text="@string/map"
+                android:onClick="openMap"
                 android:layout_height="100dp" />
         </LinearLayout>
     </RelativeLayout>
