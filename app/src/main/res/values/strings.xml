@@ -1,17 +1,35 @@
 <resources>
+    <string name="advancedsearch">Rec. avancée</string>
     <string name="app_name">Repertoire de Stages M2</string>
+
     <string name="bonjour">Bonjour, joli étrangère.</string>
-    <string name="title_activity_debug">DebugActivity</string>
-    <string name="init_db">Initialiser BDD</string>
+    <string name="button_send">Rechercher</string>
+
+    <string name="credit">On met quoi pour le credit</string>
+
+    <string name="dist">Distance</string>
+
     <string name="ent_empty">Ex. Total, BNP Paribas, etc.</string>
     <string name="entreprise_txt">Nom</string>
-    <string name="button_send">Rechercher</string>
-    <string name="jesaispas">JENNY</string>
-    <string name="dist">Distance</string>
-    <string name="prompt">Choisir...</string>
+
     <string name="from">de</string>
-    <string name="town">Ville</string>
-    <string name="title_activity_search_map">Map</string>
+
+    <string name="init_db">Initialiser BDD</string>
+
+    <string name="jesaispas">JENNY</string>
+
+    <string name="prompt">Choisir…</string>
+
+    <string name="search">Rechercher</string>
+    <string name="settings">Paramètres</string>
+
+    <string name="tags_txt">Tags</string>
+    <string name="title_activity_debug">DebugActivity</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_menu">Recherche avancée</string>
+    <string name="title_activity_entreliste">Résultats de la recherche</string>
+    <string name="title_activity_search_map">Map</string>
+    <string name="town">Ville</string>
+
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyALIyJycOHYyIcR8qqTa2jP3oB1eF25hzI</string>
 </resources>
