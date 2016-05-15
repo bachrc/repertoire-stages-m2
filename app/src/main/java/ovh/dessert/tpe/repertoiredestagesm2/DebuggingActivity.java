@@ -1,5 +1,6 @@
 package ovh.dessert.tpe.repertoiredestagesm2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -17,6 +18,11 @@ public class DebuggingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_debugging);
+    }
+
+    public void frag(View v){
+        Intent intent = new Intent(DebuggingActivity.this, TabbedActivity.class);
+        startActivity(intent);
     }
 
     public void initDB(View v) {

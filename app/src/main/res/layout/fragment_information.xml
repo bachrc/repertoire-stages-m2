@@ -1,0 +1,36 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context="fragments.InformationFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="10dp"
+        android:orientation="vertical"
+        android:layout_weight="2">
+        <TextView
+            android:id="@+id/title_entreprise"
+            android:textStyle="bold"
+            android:textSize="45sp"
+            android:text="Total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/site_entreprise"
+            android:text="www.google.fr"
+            android:textSize="25sp"
+            android:autoLink="all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5">
+    </ListView>
+
+</LinearLayout>
