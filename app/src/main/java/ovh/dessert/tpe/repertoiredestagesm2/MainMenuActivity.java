@@ -24,4 +24,9 @@ public class MainMenuActivity extends AppCompatActivity {
         intent.putExtra("<City>", "Le Havre, France");
         startActivity(intent);
     }
+
+    public void openSettings(View v) {
+        Intent intent = new Intent(MainMenuActivity.this, OptionsActivity.class);
+        startActivity(intent);
+    }
 }

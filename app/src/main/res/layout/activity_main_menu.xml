@@ -82,7 +82,8 @@
                 android:paddingEnd="0dp"
                 android:layout_gravity="bottom"
                 android:text="@string/settings"
-                android:layout_height="100dp" />
+                android:layout_height="100dp"
+                android:onClick="openSettings"/>
             <Button
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="100dp"

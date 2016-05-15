@@ -5,7 +5,7 @@
     <string name="bonjour">Bonjour, joli étrangère.</string>
     <string name="button_send">Rechercher</string>
 
-    <string name="credit">On met quoi pour le credit</string>
+    <string name="credit">2016 | Yohann Bacha - Romain Folâtre</string>
 
     <string name="dist">Distance</string>
 
@@ -25,13 +25,21 @@
     <string name="search">Rechercher</string>
     <string name="settings">Paramètres</string>
 
+    <string name="options">OPTIONS</string>
+    <string name="aboutTitle">A propos</string>
+    <string name="about">Application réalisée dans le cadre du TPE durant le mois d\'Avril et de Mai 2016 par Yohann BACHA et Romain FOLÂTRE, avec l\'encadrement de Frédéric GUINAND.</string>
+    <string name="versionInt">Version</string>
+    <string name="version">0.1</string>
+
     <string name="tags_txt">Tags</string>
     <string name="title_activity_debug">DebugActivity</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_options">Paramètres</string>
     <string name="title_activity_menu">Recherche avancée</string>
     <string name="title_activity_entreliste">Résultats de la recherche</string>
     <string name="title_activity_search_map">Carte</string>
     <string name="town">Ville</string>
 
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyALIyJycOHYyIcR8qqTa2jP3oB1eF25hzI</string>
+
 </resources>
