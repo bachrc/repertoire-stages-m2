@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.location.Address;
+import android.location.Geocoder;
+import android.util.Log;
 
 import com.opencsv.CSVReader;
 
@@ -22,12 +25,10 @@ import ovh.dessert.tpe.repertoiredestagesm2.entities.Entreprise;
 import ovh.dessert.tpe.repertoiredestagesm2.entities.Stagiaire;
 import ovh.dessert.tpe.repertoiredestagesm2.exceptions.InvalidCSVException;
 
-/**
- * Created by totorolepacha on 02/05/16.
- */
 public class StagesDAO extends SQLiteOpenHelper {
 
     private static StagesDAO db = null;
+    private static Context context;
 
     private static final String DATABASE_NAME = "repertoire.db";
     private static final int DATABASE_VERSION = 3;
@@ -109,7 +110,7 @@ public class StagesDAO extends SQLiteOpenHelper {
         return db;
     }
 
-    private void readEntreprise(CSVReader reader, SQLiteDatabase db) throws Exception {
+    private void readEntreprise(CSVReader reader, SQLiteDatabase db, boolean getLatLng, Context context) throws Exception {
         int i = 1;
         String[] nextLine;
         String fichier = "entreprise.csv";
@@ -127,7 +128,18 @@ public class StagesDAO extends SQLiteOpenHelper {
                 if(nextLine[j].isEmpty()) continue; // S'il n'y a pas de nom, on skip
                 toInsert = new ContentValues();
                 putIfNull(toInsert,"nom", nextLine[j]);
-                // TODO: 08/05/16 Recupérer les LatLng à partir d'une adresse
+                if(getLatLng)
+                    if(nextLine[j+1].isEmpty() && nextLine[j+2].isEmpty() && !nextLine[j+3].isEmpty()) {
+                        Geocoder geo = new Geocoder(context);
+                        List<Address> list = geo.getFromLocationName(nextLine[j+3], 1);
+                        if(list.size() > 0) {
+                            Address temp = list.get(0);
+                            nextLine[j+1] = Double.toString(temp.getLatitude());
+                            nextLine[j+2] = Double.toString(temp.getLongitude());
+                            Log.d("chocolat", temp.toString());
+                        }
+                    }
+
                 putIfNull(toInsert,"latitude", nextLine[j+1]);
                 putIfNull(toInsert,"longitude", nextLine[j+2]);
                 putIfNull(toInsert,"adresse", nextLine[j+3]);
@@ -233,7 +245,7 @@ public class StagesDAO extends SQLiteOpenHelper {
         }
     }
 
-    public void update(CSVReader entrepriseReader, CSVReader stagiaireReader, CSVReader stageReader, CSVReader contactReader) throws Exception {
+    public void update(CSVReader entrepriseReader, CSVReader stagiaireReader, CSVReader stageReader, CSVReader contactReader, boolean getLatLng, Context context) throws Exception {
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
 
@@ -241,7 +253,7 @@ public class StagesDAO extends SQLiteOpenHelper {
             this.reinit(db);
             this.onCreate(db);
             // On initialise les entreprises
-            this.readEntreprise(entrepriseReader, db);
+            this.readEntreprise(entrepriseReader, db, getLatLng, context);
             this.readStagiaire(stagiaireReader, db);
             this.readStage(stageReader, db);
             this.readContact(contactReader, db);
@@ -271,7 +283,7 @@ public class StagesDAO extends SQLiteOpenHelper {
             this.reinit(db);
             this.onCreate(db);
             // On initialise les entreprises
-            this.readEntreprise(entrepriseReader, db);
+            this.readEntreprise(entrepriseReader, db, false, context);
             this.readStagiaire(stagiaireReader, db);
             this.readStage(stageReader, db);
             this.readContact(contactReader, db);

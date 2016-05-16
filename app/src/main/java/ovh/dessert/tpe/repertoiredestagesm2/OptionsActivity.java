@@ -128,7 +128,7 @@ public class OptionsActivity extends AppCompatActivity {
                 publishProgress(60);
                 CSVReader stagiaireReader = new CSVReader(new InputStreamReader(new URL(urlStagiaire).openStream()), ',', '"', 1);
                 publishProgress(80);
-                StagesDAO.getInstance(this.context).update(entrepriseReader, stagiaireReader, stageReader, contactReader);
+                StagesDAO.getInstance(this.context).update(entrepriseReader, stagiaireReader, stageReader, contactReader, true, context);
                 publishProgress(100);
             } catch (Exception e) {
                 return e.toString();
