@@ -41,6 +41,7 @@
                 android:paddingLeft="0dp"
                 android:paddingRight="0dp"
                 android:paddingStart="0dp"
+                android:onClick="openList"
                 android:paddingEnd="0dp"
                 android:layout_gravity="bottom"
                 android:text="@string/search"

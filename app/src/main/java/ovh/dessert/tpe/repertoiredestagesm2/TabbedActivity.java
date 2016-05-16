@@ -35,7 +35,7 @@ public class TabbedActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_activityab);
+        setContentView(R.layout.activity_tabbed);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -55,7 +55,7 @@ public class TabbedActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_activityab, menu);
+        getMenuInflater().inflate(R.menu.menu_tabbed, menu);
         return true;
     }
 
@@ -91,7 +91,7 @@ public class TabbedActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             switch (position){
-                case 0: return InformationFragment.newInstance("_Gezo_", "osu.ppy.sh/u/481582");
+                case 0: return InformationFragment.newInstance("DESSERT FRANCK BOSS LE DIEU BUMP OLALA OUI OUI PAYPAL MEMES", "osu.ppy.sh/u/481582");
                 case 1: return ContactFragment.newInstance("Dessert");
                 case 2: return StageFragment.newInstance("Doner Kebab");
                 default: return StageFragment.newInstance("suus");

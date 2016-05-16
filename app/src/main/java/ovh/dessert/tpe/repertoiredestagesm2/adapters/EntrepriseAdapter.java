@@ -21,6 +21,10 @@ import ovh.dessert.tpe.repertoiredestagesm2.entities.Entreprise;
  */
 public class EntrepriseAdapter extends BaseAdapter {
 
+    public interface EntrepriseAdapterListener {
+        public void onClickEntreprise(Entreprise item, int position);
+    }
+
     private List<Entreprise> entreprises;
 
     //Le contexte dans lequel est présent notre adapter
@@ -29,10 +33,13 @@ public class EntrepriseAdapter extends BaseAdapter {
     //Un mécanisme pour gérer l'affichage graphique depuis un layout XML
     private LayoutInflater mInflater;
 
+    private List<EntrepriseAdapterListener> mListener;
+
     public EntrepriseAdapter(Context context, List<Entreprise> entreprises) {
         this.mContext = context;
         this.entreprises = entreprises;
         this.mInflater = LayoutInflater.from(mContext);
+        this.mListener = new ArrayList<>();
     }
 
     public EntrepriseAdapter(Context context) {
@@ -43,6 +50,7 @@ public class EntrepriseAdapter extends BaseAdapter {
         }finally {
             this.mContext = context;
             this.mInflater = LayoutInflater.from(mContext);
+            this.mListener = new ArrayList<>();
         }
     }
 
@@ -94,7 +102,26 @@ public class EntrepriseAdapter extends BaseAdapter {
             contact.setText("Aucun contact enregistré");
         }
 
+        nom.setTag(position);
+        nom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Integer position = (Integer) v.getTag();
+                sendListener(entreprises.get(position), position);
+            }
+        });
+
 
         return item;
+    }
+
+    public void addListener(EntrepriseAdapterListener entrepriseAdapterListener){
+        mListener.add(entrepriseAdapterListener);
+    }
+
+    public void sendListener(Entreprise item, int position){
+        for(int i = mListener.size()-1; i>=0; i--){
+            mListener.get(i).onClickEntreprise(item, position);
+        }
     }
 }
