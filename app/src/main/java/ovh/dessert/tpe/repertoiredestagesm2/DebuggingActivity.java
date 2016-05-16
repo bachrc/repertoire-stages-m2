@@ -28,9 +28,9 @@ public class DebuggingActivity extends AppCompatActivity {
     public void initDB(View v) {
         final TextView textViewToChange = (TextView) findViewById(R.id.textView);
         try {
-            String aAfficher = "";
+            String aAfficher;
             StagesDAO test = StagesDAO.getInstance(getApplicationContext());
-            test.update (StagesDAO.UpdateContext.OFFLINE, getApplicationContext());
+            test.updateLocal(this.getApplicationContext());
             List<Entreprise> ent = test.getAllEntreprises();
             aAfficher = "C'est coule : " + ent.size() + "\n";
             if(!ent.isEmpty()) {

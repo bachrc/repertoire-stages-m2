@@ -30,7 +30,7 @@ public class StagesDAO extends SQLiteOpenHelper {
     private static StagesDAO db = null;
 
     private static final String DATABASE_NAME = "repertoire.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     private StagesDAO(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -113,6 +113,7 @@ public class StagesDAO extends SQLiteOpenHelper {
         int i = 1;
         String[] nextLine;
         String fichier = "entreprise.csv";
+
         while((nextLine = reader.readNext()) != null) {
             if(nextLine.length % 4 != 3) // Si la taille du fichier est invalide
                 throw new InvalidCSVException(InvalidCSVException.Cause.LONGUEUR_INVALIDE, "Fichier " + fichier + " ligne " + i);
@@ -198,8 +199,6 @@ public class StagesDAO extends SQLiteOpenHelper {
                 db.insertOrThrow("Stage", null, toInsert);
             } catch(ParseException pe) {
                 throw new InvalidCSVException(InvalidCSVException.Cause.VALEUR_INVALIDE, "Fichier stage.csv ligne " + i + " : Date invalide (jj/MM/aaaa)");
-            } catch(SQLiteException ex) {
-                throw ex;
             }
             i++;
         }
@@ -234,24 +233,10 @@ public class StagesDAO extends SQLiteOpenHelper {
         }
     }
 
-    public void update(UpdateContext uc, Context context) throws Exception {
-        CSVReader contactReader, entrepriseReader, stageReader, stagiaireReader;
-        switch (uc) {
-            case OFFLINE: // Dans le cas où l'update doive se faire en offline
-                contactReader = new CSVReader(new InputStreamReader(context.getResources().openRawResource(R.raw.contact)), ',', '"', 1);
-                entrepriseReader = new CSVReader(new InputStreamReader(context.getResources().openRawResource(R.raw.entreprise)), ',', '"', 1);
-                stageReader = new CSVReader(new InputStreamReader(context.getResources().openRawResource(R.raw.stage)), ',', '"', 1);
-                stagiaireReader = new CSVReader(new InputStreamReader(context.getResources().openRawResource(R.raw.stagiaire)), ',', '"', 1);
-                break;
-            case ONLINE:
-                // TODO: 07/05/16 Télécharger les CSV depuis le serveur
-                throw new UnsupportedOperationException("Téléchargement non opérationnel");
-            default:
-                throw new IllegalArgumentException("Cause invalide.");
-        }
-
-        SQLiteDatabase db = StagesDAO.getInstance(context).getWritableDatabase();
+    public void update(CSVReader entrepriseReader, CSVReader stagiaireReader, CSVReader stageReader, CSVReader contactReader) throws Exception {
+        SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
+
         try {
             this.reinit(db);
             this.onCreate(db);
@@ -263,8 +248,36 @@ public class StagesDAO extends SQLiteOpenHelper {
             db.setTransactionSuccessful();
         }catch(SQLiteException sqe) {
             throw new InvalidCSVException(InvalidCSVException.Cause.REFERENCE_INVALIDE, sqe.getLocalizedMessage());
-        }catch(InvalidCSVException ice) {
-            throw ice;
+        }catch (IOException ioe){
+            throw new InvalidCSVException(InvalidCSVException.Cause.VALEUR_INVALIDE, "");
+        }finally {
+            db.endTransaction();
+            db.close();
+        }
+    }
+
+    public void updateLocal(Context context) throws Exception {
+        CSVReader contactReader, entrepriseReader, stageReader, stagiaireReader;
+
+        contactReader = new CSVReader(new InputStreamReader(context.getResources().openRawResource(R.raw.contact)), ',', '"', 1);
+        entrepriseReader = new CSVReader(new InputStreamReader(context.getResources().openRawResource(R.raw.entreprise)), ',', '"', 1);
+        stageReader = new CSVReader(new InputStreamReader(context.getResources().openRawResource(R.raw.stage)), ',', '"', 1);
+        stagiaireReader = new CSVReader(new InputStreamReader(context.getResources().openRawResource(R.raw.stagiaire)), ',', '"', 1);
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.beginTransaction();
+
+        try {
+            this.reinit(db);
+            this.onCreate(db);
+            // On initialise les entreprises
+            this.readEntreprise(entrepriseReader, db);
+            this.readStagiaire(stagiaireReader, db);
+            this.readStage(stageReader, db);
+            this.readContact(contactReader, db);
+            db.setTransactionSuccessful();
+        }catch(SQLiteException sqe) {
+            throw new InvalidCSVException(InvalidCSVException.Cause.REFERENCE_INVALIDE, sqe.getLocalizedMessage());
         }catch (IOException ioe){
             throw new InvalidCSVException(InvalidCSVException.Cause.VALEUR_INVALIDE, "");
         }finally {
@@ -357,10 +370,6 @@ public class StagesDAO extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         reinit(db);
         onCreate(db);
-    }
-
-    public enum UpdateContext {
-        OFFLINE, ONLINE
     }
 
 }
