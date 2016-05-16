@@ -4,11 +4,8 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ContactFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/contact_title"
-        android:text="@string/contact" />
+        android:layout_height="match_parent"/>
 
 </FrameLayout>

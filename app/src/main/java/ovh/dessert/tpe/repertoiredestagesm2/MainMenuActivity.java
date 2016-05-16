@@ -18,6 +18,11 @@ public class MainMenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void openList(View v){
+        Intent intent = new Intent(MainMenuActivity.this, EntreListeActivity.class);
+        startActivity(intent);
+    }
+
     public void openMap(View v){
         Intent intent = new Intent(MainMenuActivity.this, SearchMap.class);
         intent.putExtra("<Distance>", "10 km");
