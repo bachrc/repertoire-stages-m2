@@ -35,7 +35,7 @@
     <string name="version">0.1</string>
 
     <string name="tags_txt">Tags</string>
-    <string name="title_activity_debug">DebugActivity</string>
+    <string name="title_activity_debug">Menu de Debug</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_options">Paramètres</string>
     <string name="title_activity_menu">Recherche avancée</string>

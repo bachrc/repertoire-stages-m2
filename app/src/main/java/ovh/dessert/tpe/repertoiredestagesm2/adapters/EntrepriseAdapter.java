@@ -102,8 +102,8 @@ public class EntrepriseAdapter extends BaseAdapter {
             contact.setText("Aucun contact enregistré");
         }
 
-        nom.setTag(position);
-        nom.setOnClickListener(new View.OnClickListener() {
+        item.setTag(position);
+        item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Integer position = (Integer) v.getTag();
