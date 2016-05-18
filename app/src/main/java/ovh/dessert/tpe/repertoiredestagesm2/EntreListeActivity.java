@@ -30,7 +30,7 @@ public class EntreListeActivity extends AppCompatActivity implements EntrepriseA
     @Override
     public void onClickEntreprise(Entreprise item, int position) {
         Intent intent = new Intent(EntreListeActivity.this, TabbedActivity.class);
-        intent.putExtra("<Abbr>", item.getAbbr());
+        intent.putExtra("<Code>", item.getAbbr());
         startActivity(intent);
     }
 }

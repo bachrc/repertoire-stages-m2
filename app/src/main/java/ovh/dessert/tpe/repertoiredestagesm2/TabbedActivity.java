@@ -11,6 +11,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
+import ovh.dessert.tpe.repertoiredestagesm2.entities.Contact;
+import ovh.dessert.tpe.repertoiredestagesm2.entities.Localisation;
+import ovh.dessert.tpe.repertoiredestagesm2.entities.Stage;
 import ovh.dessert.tpe.repertoiredestagesm2.fragments.ContactFragment;
 import ovh.dessert.tpe.repertoiredestagesm2.fragments.InformationFragment;
 import ovh.dessert.tpe.repertoiredestagesm2.fragments.StageFragment;
@@ -31,11 +36,44 @@ public class TabbedActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+    protected String entCode;
+    protected String entName;
+    protected ArrayList<Localisation> locs;
+    protected ArrayList<Contact> conts;
+    protected ArrayList<Stage> stages;
+    protected String site;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabbed);
+
+        entCode = getIntent().getStringExtra("<Code>");
+        try {
+            site = StagesDAO.getInstance(this).getEntreprise(entCode).getSiteweb();
+        } catch (Exception e) {
+            site = "Aucun site";
+        }
+        try {
+            entName = StagesDAO.getInstance(this).getEntreprise(entCode).getNom();
+        } catch (Exception e) {
+            entName = "Aucun nom";
+        }
+        try {
+            locs = (ArrayList<Localisation>) StagesDAO.getInstance(this).getEntreprise(entCode).getLocalisations();
+        } catch (Exception e) {
+            locs = new ArrayList<>();
+        }
+        try {
+            conts = (ArrayList<Contact>) StagesDAO.getInstance(this).getEntreprise(entCode).getContacts();
+        } catch (Exception e) {
+            conts = new ArrayList<>();
+        }
+        try {
+            stages = (ArrayList<Stage>) StagesDAO.getInstance(this).getEntreprise(entCode).getStages();
+        } catch (Exception e) {
+            stages = new ArrayList<>();
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -91,8 +129,8 @@ public class TabbedActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             switch (position){
-                case 0: return InformationFragment.newInstance("DESSERT FRANCK BOSS LE DIEU BUMP OLALA OUI OUI PAYPAL MEMES", "osu.ppy.sh/u/481582");
-                case 1: return ContactFragment.newInstance("Dessert");
+                case 0: return InformationFragment.newInstance(entName, site, locs);
+                case 1: return ContactFragment.newInstance(conts);
                 case 2: return StageFragment.newInstance("Doner Kebab");
                 default: return StageFragment.newInstance("suus");
             }

@@ -6,8 +6,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import java.util.List;
 
 import ovh.dessert.tpe.repertoiredestagesm2.R;
+import ovh.dessert.tpe.repertoiredestagesm2.adapters.ContactAdapter;
+import ovh.dessert.tpe.repertoiredestagesm2.entities.Contact;
 
 
 /**
@@ -16,16 +21,17 @@ import ovh.dessert.tpe.repertoiredestagesm2.R;
 public class ContactFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
+    protected static List<Contact> contactList;
 
     public ContactFragment() {
         // Required empty public constructor
     }
 
 
-    public static ContactFragment newInstance(String sectionNumber) {
+    public static ContactFragment newInstance(List<Contact> list) {
         ContactFragment fragment = new ContactFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_SECTION_NUMBER, sectionNumber);
+        contactList = list;
         fragment.setArguments(args);
         return fragment;
     }
@@ -34,8 +40,11 @@ public class ContactFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_contact, container, false);
-       /* TextView textView = (TextView) rootView.findViewById(R.id.contact_title);
-        textView.setText(getArguments().getString(ARG_SECTION_NUMBER));*/
+
+        ListView listView = (ListView) rootView.findViewById(R.id.liste_contact);
+        ContactAdapter adapter = new ContactAdapter(this.getContext(), contactList);
+        listView.setAdapter(adapter);
+
         return rootView;
     }
 

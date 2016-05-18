@@ -26,6 +26,6 @@
             android:layout_weight="1"
             android:paddingTop="3dp"
             android:layout_height="match_parent"
-            android:drawableRight="@drawable/ic_pin_drop_red_24dp"/>
+            android:drawableRight="@drawable/ic_pin_drop_red_48dp"/>
     </LinearLayout>
 </LinearLayout>
