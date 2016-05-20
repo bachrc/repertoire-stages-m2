@@ -3,7 +3,6 @@ package ovh.dessert.tpe.repertoiredestagesm2.entities;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,6 +87,8 @@ public class Stagiaire {
 
         return retour;
     }
+
+    public String toString() { return ((prenom != null)? prenom + " " : "") + nom.toUpperCase(); }
 
     public String getNom() {
         return nom;

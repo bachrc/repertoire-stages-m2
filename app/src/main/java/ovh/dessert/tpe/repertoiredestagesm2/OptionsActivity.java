@@ -166,7 +166,7 @@ public class OptionsActivity extends AppCompatActivity {
             if (result != null)
                 Toast.makeText(context,"Erreur : " + result, Toast.LENGTH_LONG).show();
             else
-                Toast.makeText(context,"Base de données à jour !", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,getString(R.string.update_finished), Toast.LENGTH_SHORT).show();
         }
 
     }

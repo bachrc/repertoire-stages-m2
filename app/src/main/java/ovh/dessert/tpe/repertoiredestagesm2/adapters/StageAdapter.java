@@ -12,18 +12,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ovh.dessert.tpe.repertoiredestagesm2.R;
-import ovh.dessert.tpe.repertoiredestagesm2.entities.Contact;
+import ovh.dessert.tpe.repertoiredestagesm2.entities.Stage;
 
 /**
- * Created by Unmei Muma on 18/05/2016.
+ * Created by Unmei Muma on 20/05/2016.
  */
-public class ContactAdapter extends BaseAdapter {
+public class StageAdapter extends BaseAdapter {
 
-    public interface ContactAdapterListener {
-        public void onClickContact(Contact item, int position);
+    public interface StageAdapterListener {
+        public void onClickStage(Stage item, int position);
     }
 
-    private List<Contact> contacts;
+    private List<Stage> stages;
 
     //Le contexte dans lequel est présent notre adapter
     private Context mContext;
@@ -31,23 +31,23 @@ public class ContactAdapter extends BaseAdapter {
     //Un mécanisme pour gérer l'affichage graphique depuis un layout XML
     private LayoutInflater mInflater;
 
-    private List<ContactAdapterListener> mListener;
+    private List<StageAdapterListener> mListener;
 
-    public ContactAdapter(Context context, List<Contact> contacts) {
+    public StageAdapter(Context context, List<Stage> stages) {
         this.mContext = context;
-        this.contacts = contacts;
+        this.stages = stages;
         this.mInflater = LayoutInflater.from(mContext);
         this.mListener = new ArrayList<>();
     }
 
     @Override
     public int getCount() {
-        return this.contacts.size();
+        return stages.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return this.contacts.get(position);
+        return stages.get(position);
     }
 
     @Override
@@ -58,22 +58,26 @@ public class ContactAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LinearLayout item;
-        TextView nom, phone;
-        String nomS, phoneS;
+        TextView nom, sujet;
+        String nomS, sujetS;
         if(convertView == null){
-            item = (LinearLayout) mInflater.inflate(R.layout.contact_list_item, parent, false);
+            item = (LinearLayout) mInflater.inflate(R.layout.stage_list_item, parent, false);
         }else{
-
             item = (LinearLayout) convertView;
         }
 
-        nom = (TextView) item.findViewById(R.id.nom_contact);
-        nomS = contacts.get(position).toString();
-        phone = (TextView) item.findViewById(R.id.phone_contact);
-        phoneS = contacts.get(position).getTelephone();
+        nom = (TextView) item.findViewById(R.id.nom_stagiaire);
+
+        try {
+            nomS = stages.get(position).getStagiaire().toString();
+        } catch (Exception e) {
+            nomS = "Aucun nom";
+        }
+        sujet = (TextView) item.findViewById(R.id.sujet);
+        sujetS = stages.get(position).getSujet();
 
         nom.setText(nomS);
-        phone.setText(phoneS);
+        sujet.setText(sujetS);
 
         item.setTag(position);
         item.setOnClickListener(new View.OnClickListener(){
@@ -81,20 +85,20 @@ public class ContactAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Integer position = (Integer) v.getTag();
-                sendListener(contacts.get(position), position);
+                sendListener(stages.get(position), position);
             }
         });
 
         return item;
     }
 
-    public void addListener(ContactAdapterListener contactAdapterListener){
-        mListener.add(contactAdapterListener);
+    public void addListener(StageAdapterListener stageAdapterListener){
+        mListener.add(stageAdapterListener);
     }
 
-    public void sendListener(Contact item, int position){
+    public void sendListener(Stage item, int position){
         for(int i = mListener.size()-1; i>=0; i--){
-            mListener.get(i).onClickContact(item, position);
+            mListener.get(i).onClickStage(item, position);
         }
     }
 }

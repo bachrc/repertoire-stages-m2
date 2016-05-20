@@ -131,8 +131,8 @@ public class TabbedActivity extends AppCompatActivity {
             switch (position){
                 case 0: return InformationFragment.newInstance(entName, site, locs);
                 case 1: return ContactFragment.newInstance(conts);
-                case 2: return StageFragment.newInstance("Doner Kebab");
-                default: return StageFragment.newInstance("suus");
+                case 2: return StageFragment.newInstance(stages);
+                default: return StageFragment.newInstance(null);
             }
         }
 

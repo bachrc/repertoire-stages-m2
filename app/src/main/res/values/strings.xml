@@ -49,4 +49,6 @@
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="adresses">Adresses</string>
+    <string name="erreur_phone">Impossible d\'ouvrir le téléphone</string>
+    <string name="update_finished">Base de données à jour!</string>
 </resources>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:padding="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dp"
+        android:layout_weight="7"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:textSize="22sp"
+            android:layout_height="match_parent"
+            android:id="@+id/nom_stagiaire">
+        </TextView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:layout_height="match_parent"
+            android:id="@+id/sujet">
+        </TextView>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/downloadable"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:paddingTop="3dp"
+        android:layout_height="match_parent"
+        android:drawableRight="@drawable/ic_search_blue_48dp"/>
+
+
+</LinearLayout>
