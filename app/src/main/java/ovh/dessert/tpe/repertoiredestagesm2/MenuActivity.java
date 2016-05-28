@@ -44,10 +44,6 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
             public void onClick(View v) {
                 Spinner sp = (Spinner) findViewById(R.id.spinner);
                 EditText city = (EditText) findViewById(R.id.town);
-
-                // Toast.makeText(MainActivity.this,(String) sp.getItemAtPosition(sp.getSelectedItemPosition()) + " de " + city.getText().toString(), Toast.LENGTH_LONG).show();
-
-                // Intent intent = new Intent(MenuActivity.this, SearchMap.class);
                 Intent intent = new Intent(MenuActivity.this, EntreListeActivity.class);
                 intent.putExtra("<Distance>", (String) sp.getItemAtPosition(sp.getSelectedItemPosition()));
                 intent.putExtra("<City>", city.getText().toString());

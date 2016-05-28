@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="ovh.dessert.tpe.repertoiredestagesm2">
+    package="ovh.dessert.tpe.repertoiredestagesm2">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
@@ -13,21 +13,21 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MenuActivity"
-            android:label="@string/title_activity_menu"/>
+            android:label="@string/title_activity_menu" />
         <activity
             android:name=".DebuggingActivity"
-            android:label="@string/title_activity_debug"/>
+            android:label="@string/title_activity_debug" />
         <activity
             android:name=".SearchMap"
-            android:label="@string/title_activity_search_map"/>
+            android:label="@string/title_activity_search_map" />
         <activity
             android:name=".EntreListeActivity"
-            android:label="@string/title_activity_entreliste"/>
+            android:label="@string/title_activity_entreliste" />
         <activity android:name=".MainMenuActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
@@ -38,12 +38,15 @@
         <activity
             android:name=".TabbedActivity"
             android:label="@string/title_activity_activityab"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".OptionsActivity"
-            android:label="@string/title_activity_options">
-        </activity>
+            android:label="@string/title_activity_options"></activity>
+        <activity android:name=".StudentActivity"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>
