@@ -52,4 +52,6 @@
     <string name="erreur_phone">Impossible d\'ouvrir le téléphone</string>
     <string name="update_finished">Base de données à jour!</string>
     <string name="erreur_etu">Erreur lors du chargement de l\'étudiant.</string>
+    <string name="stages">Stages :</string>
+    <string name="title_activity_student">Details Etudiant</string>
 </resources>
