@@ -53,4 +53,6 @@
     <string name="update_finished">Base de données à jour!</string>
     <string name="erreur_etu">Erreur lors du chargement de l\'étudiant.</string>
     <string name="tags_empty">Ex: tag1;tag2;tag3&#8230;</string>
+    <string name="stages">Stages :</string>
+    <string name="title_activity_student">Details Etudiant</string>
 </resources>

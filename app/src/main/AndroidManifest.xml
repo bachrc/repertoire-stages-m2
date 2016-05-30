@@ -13,17 +13,23 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MenuActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_menu" />
         <activity
             android:name=".DebuggingActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_debug" />
         <activity
             android:name=".SearchMap"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_search_map" />
         <activity
             android:name=".EntreListeActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_entreliste" />
-        <activity android:name=".MainMenuActivity">
+        <activity
+            android:name=".MainMenuActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,12 +43,19 @@
 
         <activity
             android:name=".TabbedActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_activityab"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".OptionsActivity"
-            android:label="@string/title_activity_options"></activity>
-        <activity android:name=".StudentActivity"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_options"/>
+        <activity
+            android:name=".StudentActivity"
+            android:label="@string/title_activity_student"
+            android:screenOrientation="portrait" />
+
+        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <meta-data
             android:name="com.google.android.gms.version"

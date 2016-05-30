@@ -14,31 +14,65 @@
         android:layout_height="wrap_content"
         android:textSize="40sp"
         android:textStyle="bold"
+        android:layout_marginBottom="3dp"
         android:id="@+id/nom_etu"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autoLink="all"
-        android:textSize="30sp"
+        android:textSize="22sp"
+        android:layout_marginBottom="3dp"
         android:id="@+id/mail_etu"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
+        android:textSize="22sp"
+        android:layout_marginBottom="3dp"
         android:id="@+id/promotion_etu"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="22sp"
+        android:layout_marginBottom="25dp"
         android:id="@+id/phone_etu"/>
 
-    <!--TextView
+    <TextView
+        android:id="@+id/label_emploi"
+        android:textSize="18sp"
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/entreprise_emploi"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/poste_emploi"
+        android:textSize="18sp"
+        android:layout_marginBottom="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <TextView
+        android:text="@string/stages"
+        android:textSize="18sp"
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:text="@string/stage"/-->
+        android:id="@+id/liste_stage" />
+
 
 </LinearLayout>
