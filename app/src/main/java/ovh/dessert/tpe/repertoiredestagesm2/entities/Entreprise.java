@@ -15,6 +15,7 @@ public class Entreprise {
     private String nom;
     private String siteweb; // Peut être nul
     private String abbr;
+    private double dist;
 
     public Entreprise(Cursor results) {
         this(results.getString(0), (results.isNull(1) ? null : results.getString(1)), results.getString(2));
@@ -104,4 +105,9 @@ public class Entreprise {
     public String getAbbr() {
         return abbr;
     }
+
+    public void setDistanceToPoint(double dist){ this.dist = dist; }
+
+    public double getDistanceToPoint(){ return dist; }
+
 }

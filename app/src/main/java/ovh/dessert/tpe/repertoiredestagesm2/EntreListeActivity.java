@@ -21,8 +21,13 @@ public class EntreListeActivity extends AppCompatActivity implements EntrepriseA
         setContentView(R.layout.activity_list);
         Intent intent = getIntent();
 
+        // Dans le cas où une personne veut chercher un stage partout dans le monde, on modifie la valeur de cette dernière pour que la recherche fonctionne.
+        String dist = intent.getStringExtra("<Distance>");
+        if(dist.equals("Partout"))
+            dist = "20038 km";
+
         try {
-            List<Entreprise> affichage = StagesDAO.getInstance(EntreListeActivity.this).searchEntreprises(EntreListeActivity.this.getApplicationContext(), intent.getStringExtra("<Nom>"), intent.getStringExtra("<Distance>"), intent.getStringExtra("<City>"), intent.getStringExtra("<Tags>"));
+            List<Entreprise> affichage = StagesDAO.getInstance(EntreListeActivity.this).searchEntreprises(EntreListeActivity.this.getApplicationContext(), intent.getStringExtra("<Nom>"), dist, intent.getStringExtra("<City>"), intent.getStringExtra("<Tags>"));
             EntrepriseAdapter adapter = new EntrepriseAdapter(this, affichage);
             adapter.addListener(this);
             ListView tl = (ListView) findViewById(R.id.listlayout);

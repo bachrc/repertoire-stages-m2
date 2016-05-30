@@ -25,7 +25,7 @@
                 android:layout_weight="1"
                 android:id="@+id/entreprise_contact"/>
         </LinearLayout>
-        <!--
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -35,5 +35,5 @@
             android:gravity="right"
             android:textStyle="bold"
             android:textSize="25dp"/>
-            -->
+
 </LinearLayout>

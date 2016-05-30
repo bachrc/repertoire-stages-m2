@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -73,7 +74,7 @@ public class EntrepriseAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LinearLayout item;
         TextView nom, contact;
-        // TextView distance;
+        TextView distance;
 
         if(convertView == null){
             item = (LinearLayout) mInflater.inflate(R.layout.entre_list_item, parent, false);
@@ -83,7 +84,7 @@ public class EntrepriseAdapter extends BaseAdapter {
 
         nom = (TextView) item.findViewById(R.id.entreprise_nom);
         contact = (TextView) item.findViewById(R.id.entreprise_contact);
-        // distance = (TextView) item.findViewById(R.id.distance);
+        distance = (TextView) item.findViewById(R.id.distance);
 
         String title = entreprises.get(position).getNom();
 
@@ -100,6 +101,12 @@ public class EntrepriseAdapter extends BaseAdapter {
             contact.setText(entreprises.get(position).getContacts().get(0).toString());
         } catch (Exception e) {
             contact.setText("Aucun contact enregistré");
+        }
+
+        if (entreprises.get(position).getDistanceToPoint() > 0) {
+            distance.setText(String.format("%.1f", entreprises.get(position).getDistanceToPoint()) + " km");
+        }else{
+            distance.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT, 0f));
         }
 
         item.setTag(position);

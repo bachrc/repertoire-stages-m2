@@ -19,7 +19,7 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     public void openList(View v){
-        Intent intent = new Intent(MainMenuActivity.this, EntreListeActivity.class);
+        Intent intent = new Intent(MainMenuActivity.this, FullListActivity.class);
         startActivity(intent);
     }
 

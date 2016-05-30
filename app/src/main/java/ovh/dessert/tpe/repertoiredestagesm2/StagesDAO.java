@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteQueryBuilder;
 import android.location.Address;
 import android.location.Geocoder;
 import android.util.Log;
@@ -143,6 +142,7 @@ public class StagesDAO extends SQLiteOpenHelper {
                         if (list.size() > 0) {
                             for(Localisation loc:temp.getLocalisations()) {
                                 if(Localisation.distance(list.get(0).getLatitude(), loc.getLatitude(), list.get(0).getLongitude(), loc.getLongitude()) <= distance) {
+                                    temp.setDistanceToPoint(Localisation.distance(list.get(0).getLatitude(), loc.getLatitude(), list.get(0).getLongitude(), loc.getLongitude()));
                                     retour.add(temp);
                                     break;
                                 }
