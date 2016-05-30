@@ -69,19 +69,21 @@ public class SearchMap extends FragmentActivity implements OnMapReadyCallback {
         Geocoder gc = new Geocoder(SearchMap.this);
 
         try {
-
             List<Address> temp = gc.getFromLocationName(city, 1);
             if(!temp.isEmpty())
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(temp.get(0).getLatitude(), temp.get(0).getLongitude()), 12.5f));
-                Log.d("ledessert", Integer.toString(localisations.size()));
+
+            if(!localisations.isEmpty())
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(localisations.get(0).getLatitude(), localisations.get(0).getLongitude()), 12.5f));
+
             for(Localisation l : this.localisations) {
-                if(l.getLatitude() != 0 && l.getLongitude() != 0) {
+                if(l.getLatitude() != 0 && l.getLongitude() != 0)
                     mMap.addMarker(new MarkerOptions()
                             .position(new LatLng(l.getLatitude(), l.getLongitude())).icon(BitmapDescriptorFactory.defaultMarker(l.getAbbr().hashCode() % 360))
                             .title(l.getEntreprise().getNom())
                             .snippet(l.getNom()));
-                }
             }
+
         } catch (Exception e) {
             Log.d("Erreur", e.getMessage());
             Toast.makeText(SearchMap.this, e.getMessage(), Toast.LENGTH_SHORT).show();

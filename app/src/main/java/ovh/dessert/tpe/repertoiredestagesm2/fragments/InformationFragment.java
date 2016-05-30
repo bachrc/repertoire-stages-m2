@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import ovh.dessert.tpe.repertoiredestagesm2.R;
@@ -64,22 +66,10 @@ public class InformationFragment extends Fragment implements LocalisationAdapter
 
     @Override
     public void onClickLocalisation(Localisation item, int position) {
-        double latitude = item.getLatitude();
-        double longitude = item.getLongitude();
-        String entreprise, adresse;
-        try {
-            entreprise = item.getEntreprise().getNom();
-            adresse = item.getAdresse();
-        } catch (Exception e) {
-            entreprise = "Aucun nom";
-            adresse = "Aucune adresse";
-        }
-
+        ArrayList<Localisation> temp = new ArrayList<>();
+        temp.add(item);
         Intent intent = new Intent(this.getContext(), SearchMap.class);
-        intent.putExtra("<Nom>", entreprise);
-        intent.putExtra("<Adresse>", adresse);
-        intent.putExtra("<Latitude>", latitude);
-        intent.putExtra("<Longitude>", longitude);
+        intent.putParcelableArrayListExtra("<Localisations>", temp);
 
         startActivity(intent);
     }
