@@ -47,10 +47,8 @@ public class ExampleUnitTest {
         stageReader = new CSVReader(new InputStreamReader(new FileInputStream("res/raw/stage.csv")));
         stagiaireReader = new CSVReader(new InputStreamReader(new FileInputStream("res/raw/stagiaire.csv")));
 
-        // TODO: 08/05/16 Faire des toInsert.putNull si la String est vide
-
-        int i = 1;
-        String fichier = "";
+        int i;
+        String fichier;
         try {
             i = 1;
             // On initialise les entreprises
@@ -69,7 +67,6 @@ public class ExampleUnitTest {
                     if(nextLine[j].isEmpty()) continue; // S'il n'y a pas de nom, on skip
                     toInsert = new ContentValues();
                     toInsert.put("nom", nextLine[j]);
-                    // TODO: 08/05/16 Recupérer les LatLng à partir d'une adresse
                     toInsert.put("latitude", nextLine[j+1]);
                     toInsert.put("longitude", nextLine[j+2]);
                     toInsert.put("adresse", nextLine[j+3]);

@@ -26,6 +26,14 @@ public class Localisation {
         this.entreprise = entreprise;
     }
 
+    public static double distance(double lat1, double lat2, double long1, double long2) {
+        double rayon = 6371;
+        if(lat1 == 0 && long1 == 0 || lat2 == 0 && long2 == 0) // Si un des couples est nul, il n'est pas défini, la distance est nulle.
+            return 0;
+
+        return Math.abs(Math.acos(Math.sin(Math.toRadians(lat1)) * Math.sin(Math.toRadians(lat2)) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.cos(Math.toRadians(long1) - Math.toRadians(long2))) * rayon);
+    }
+
     public double getLatitude() {
         return latitude;
     }

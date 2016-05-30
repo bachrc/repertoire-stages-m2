@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,15 +43,20 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
 
             @Override
             public void onClick(View v) {
+                EditText entreprise = (EditText) findViewById(R.id.entreprise);
                 Spinner sp = (Spinner) findViewById(R.id.spinner);
                 EditText city = (EditText) findViewById(R.id.town);
+                EditText tags = (EditText) findViewById(R.id.tags);
                 Intent intent = new Intent(MenuActivity.this, EntreListeActivity.class);
+                intent.putExtra("<Nom>", entreprise.getText().toString());
                 intent.putExtra("<Distance>", (String) sp.getItemAtPosition(sp.getSelectedItemPosition()));
                 intent.putExtra("<City>", city.getText().toString());
+                intent.putExtra("<Tags>", tags.getText().toString());
                 startActivity(intent);
 
             }
         });
+
 
         ArrayAdapter<String> aa = new ArrayAdapter<String>(this, R.layout.spinner_item, str);
         aa.setDropDownViewResource(R.layout.spinner_item);

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.location.Address;
 import android.location.Geocoder;
 import android.util.Log;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Locale;
 
 import ovh.dessert.tpe.repertoiredestagesm2.entities.Entreprise;
+import ovh.dessert.tpe.repertoiredestagesm2.entities.Localisation;
 import ovh.dessert.tpe.repertoiredestagesm2.entities.Stagiaire;
 import ovh.dessert.tpe.repertoiredestagesm2.exceptions.InvalidCSVException;
 
@@ -101,6 +103,66 @@ public class StagesDAO extends SQLiteOpenHelper {
         }
 
         return retour;
+    }
+
+    public List<Entreprise> searchEntreprises(Context context, String nom, String rayon, String ville, String tags) throws Exception{
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<Entreprise> retour = new ArrayList<>();
+
+        // Génération de la requête SQL de recherche
+
+        String requete = "SELECT * FROM Entreprise";
+
+        if(!nom.isEmpty() || !tags.isEmpty()) {
+            requete += " WHERE ";
+            if(!nom.isEmpty()) {
+                requete += "nom_entreprise LIKE '%" + nom.replace("!", "!!").replace("%", "!%").replace("_", "!_").replace("[", "![").replace("'", "!'") + "%'";
+                if (!tags.isEmpty())
+                    requete += " AND ";
+            }
+            if(!tags.isEmpty()) {
+                requete += "abbr IN(SELECT DISTINCT entreprise FROM Stage WHERE ";
+                for(String tag:tags.split(";")) {
+                    requete += "mots_cles LIKE '%" + tag.replace("!", "!!").replace("%", "!%").replace("_", "!_").replace("[", "![").replace("'", "!'") + "%' AND ";
+                }
+                requete = requete.substring(0, requete.length() - 5) + " ESCAPE '!' )";
+            }
+        }
+
+        Cursor results = db.rawQuery(requete, null);
+
+        try {
+            if (results.moveToFirst()) {
+                do {
+                    Entreprise temp = new Entreprise(results);
+                    if(!ville.isEmpty()) {
+                        int distance = Integer.parseInt(rayon.split(" ")[0]);
+
+                        Geocoder geo = new Geocoder(context);
+                        List<Address> list = geo.getFromLocationName(ville, 1);
+                        if (list.size() > 0) {
+                            for(Localisation loc:temp.getLocalisations()) {
+                                if(Localisation.distance(list.get(0).getLatitude(), loc.getLatitude(), list.get(0).getLongitude(), loc.getLongitude()) <= distance) {
+                                    retour.add(temp);
+                                    break;
+                                }
+                            }
+                        }
+                    } else {
+                        retour.add(temp);
+                    }
+                }while(results.moveToNext());
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+            throw new Exception("Erreur lors de l'éxecution de la requête.");
+        } finally {
+            if (results != null && !results.isClosed())
+                results.close();
+        }
+
+        return retour;
+
     }
 
     public static synchronized StagesDAO getInstance(Context context) {
