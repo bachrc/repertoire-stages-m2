@@ -18,6 +18,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
+import ovh.dessert.tpe.repertoiredestagesm2.entities.Entreprise;
 import ovh.dessert.tpe.repertoiredestagesm2.entities.Localisation;
 
 public class SearchMap extends FragmentActivity implements OnMapReadyCallback {
@@ -36,10 +37,22 @@ public class SearchMap extends FragmentActivity implements OnMapReadyCallback {
         else
             city = "Le Havre";
 
-        if (!getIntent().getParcelableArrayListExtra("<Localisations>").isEmpty())
+        if (getIntent().getParcelableArrayListExtra("<Localisations>") != null)
             localisations = getIntent().getParcelableArrayListExtra("<Localisations>");
         else
             localisations = new ArrayList<>();
+
+        try {
+            if (getIntent().getParcelableArrayListExtra("<Entreprises>") != null) {
+                ArrayList<Entreprise> temp = getIntent().getParcelableArrayListExtra("<Entreprises>");
+                localisations.clear();
+                for (Entreprise ent : temp)
+                    for (Localisation l : ent.getLocalisations())
+                        localisations.add(l);
+            }
+        } catch(Exception e) {
+            Toast.makeText(SearchMap.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
 
         // Toast.makeText(SearchMap.this, distance + "FLUFF" + city, Toast.LENGTH_LONG).show();
         setContentView(R.layout.activity_search_map);

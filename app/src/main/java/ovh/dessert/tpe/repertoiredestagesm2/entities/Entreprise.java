@@ -2,6 +2,8 @@ package ovh.dessert.tpe.repertoiredestagesm2.entities;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +13,7 @@ import ovh.dessert.tpe.repertoiredestagesm2.StagesDAO;
 /**
  * Created by totorolepacha on 02/05/16.
  */
-public class Entreprise {
+public class Entreprise implements Parcelable {
     private String nom;
     private String siteweb; // Peut être nul
     private String abbr;
@@ -103,5 +105,39 @@ public class Entreprise {
 
     public String getAbbr() {
         return abbr;
+    }
+
+    // Attributs parcelable
+    public static final Parcelable.Creator<Entreprise> CREATOR =
+            new Parcelable.Creator<Entreprise>() {
+
+                @Override
+                public Entreprise createFromParcel(Parcel source) {
+                    return new Entreprise(source);
+                }
+
+                @Override
+                public Entreprise[] newArray(int size) {
+                    return new Entreprise[size];
+                }
+
+            };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.nom);
+        dest.writeString(this.siteweb);
+        dest.writeString(this.abbr);
+    }
+
+    public Entreprise(Parcel parcel) {
+        this.nom = parcel.readString();
+        this.siteweb = parcel.readString();
+        this.abbr = parcel.readString();
     }
 }
