@@ -1,13 +1,15 @@
 package ovh.dessert.tpe.repertoiredestagesm2.entities;
 
 import android.database.Cursor;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import ovh.dessert.tpe.repertoiredestagesm2.StagesDAO;
 
 /**
  * Created by totorolepacha on 02/05/16.
  */
-public class Localisation {
+public class Localisation implements Parcelable {
     private String nom;
     private double latitude; // Peut être nul (égal à 0)
     private double longitude; // Peut être nul (égal à 0)
@@ -52,5 +54,47 @@ public class Localisation {
 
     public Entreprise getEntreprise() throws Exception {
         return StagesDAO.getInstance(null).getEntreprise(entreprise);
+    }
+
+    public String getAbbr() {
+        return entreprise;
+    }
+
+    // Attributs parcelable
+    public static final Parcelable.Creator<Localisation> CREATOR =
+        new Parcelable.Creator<Localisation>() {
+
+            @Override
+            public Localisation createFromParcel(Parcel source) {
+                return new Localisation(source);
+            }
+
+            @Override
+            public Localisation[] newArray(int size) {
+                return new Localisation[size];
+            }
+
+        };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.nom);
+        dest.writeDouble(this.latitude);
+        dest.writeDouble(this.longitude);
+        dest.writeString(this.adresse);
+        dest.writeString(this.entreprise);
+    }
+
+    private Localisation(Parcel in) {
+        this.nom = in.readString();
+        this.latitude = in.readDouble();
+        this.longitude = in.readDouble();
+        this.adresse = in.readString();
+        this.entreprise = in.readString();
     }
 }

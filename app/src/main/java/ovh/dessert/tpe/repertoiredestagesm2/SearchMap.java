@@ -5,20 +5,26 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import ovh.dessert.tpe.repertoiredestagesm2.entities.Localisation;
 
 public class SearchMap extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private String city, distance, ent, adr;
+    private String city, distance;
+    private ArrayList<Localisation> localisations;
     private double lat, lng;
 
     @Override
@@ -27,18 +33,14 @@ public class SearchMap extends FragmentActivity implements OnMapReadyCallback {
 
         if (getIntent().getStringExtra("<City>") != null)
             city = getIntent().getStringExtra("<City>");
+        else
+            city = "Le Havre";
 
-        if (getIntent().getStringExtra("<Distance>") != null)
-            distance = getIntent().getStringExtra("<Distance>").split("[a-z ]")[0];
+        if (!getIntent().getParcelableArrayListExtra("<Localisations>").isEmpty())
+            localisations = getIntent().getParcelableArrayListExtra("<Localisations>");
+        else
+            localisations = new ArrayList<>();
 
-        if (getIntent().getStringExtra("<Adresse>") != null)
-            adr = getIntent().getStringExtra("<Adresse>");
-
-        if (getIntent().getStringExtra("<Nom>") != null)
-            ent = getIntent().getStringExtra("<Nom>");
-
-        lat = getIntent().getDoubleExtra("<Latitude>", 0);
-        lng = getIntent().getDoubleExtra("<Longitude>", 0);
         // Toast.makeText(SearchMap.this, distance + "FLUFF" + city, Toast.LENGTH_LONG).show();
         setContentView(R.layout.activity_search_map);
 
@@ -53,21 +55,25 @@ public class SearchMap extends FragmentActivity implements OnMapReadyCallback {
         LatLng centre;
         Geocoder gc = new Geocoder(SearchMap.this);
 
-        if(city == null){
-            centre = new LatLng(lat, lng);
-            mMap.addMarker(new MarkerOptions().position(centre).title(ent));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(centre, 12.5f));
-        }else{
-            try {
-                List<Address> addresses = gc.getFromLocationName(city, 1, -90.0, -180.0, 90.0, 180.0);
-                if (addresses.get(0).hasLatitude() && addresses.get(0).hasLongitude()) {
-                    centre = new LatLng(addresses.get(0).getLatitude(), addresses.get(0).getLongitude());
-                    mMap.addMarker(new MarkerOptions().position(centre).title("Centre"));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(centre, 13.0f));
+        try {
+
+            List<Address> temp = gc.getFromLocationName(city, 1);
+            if(!temp.isEmpty())
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(temp.get(0).getLatitude(), temp.get(0).getLongitude()), 12.5f));
+                Log.d("ledessert", Integer.toString(localisations.size()));
+            for(Localisation l : this.localisations) {
+                if(l.getLatitude() != 0 && l.getLongitude() != 0) {
+                    mMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(l.getLatitude(), l.getLongitude())).icon(BitmapDescriptorFactory.defaultMarker(l.getAbbr().hashCode() % 360))
+                            .title(l.getEntreprise().getNom())
+                            .snippet(l.getNom()));
                 }
-            } catch (Exception e) {
-                Log.d("Erreur", e.getMessage());
             }
+        } catch (Exception e) {
+            Log.d("Erreur", e.getMessage());
+            Toast.makeText(SearchMap.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            finish();
         }
+
     }
 }

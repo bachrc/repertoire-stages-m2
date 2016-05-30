@@ -30,7 +30,6 @@ import ovh.dessert.tpe.repertoiredestagesm2.exceptions.InvalidCSVException;
 public class StagesDAO extends SQLiteOpenHelper {
 
     private static StagesDAO db = null;
-    private static Context context;
 
     private static final String DATABASE_NAME = "repertoire.db";
     private static final int DATABASE_VERSION = 3;
@@ -48,6 +47,28 @@ public class StagesDAO extends SQLiteOpenHelper {
             if (results.moveToFirst()) {
                 do {
                     Entreprise temp = new Entreprise(results);
+                    retour.add(temp);
+                }while(results.moveToNext());
+            }
+        } catch(Exception e) {
+            throw new Exception("Erreur lors de l'éxecution de la requête.");
+        } finally {
+            if (results != null && !results.isClosed())
+                results.close();
+        }
+
+        return retour;
+    }
+
+    public List<Localisation> getAllLocalisations() throws Exception {
+        SQLiteDatabase db = this.getReadableDatabase();
+        List<Localisation> retour = new ArrayList<>();
+
+        Cursor results = db.rawQuery("SELECT * FROM Localisation", null);
+        try {
+            if (results.moveToFirst()) {
+                do {
+                    Localisation temp = new Localisation(results);
                     retour.add(temp);
                 }while(results.moveToNext());
             }
