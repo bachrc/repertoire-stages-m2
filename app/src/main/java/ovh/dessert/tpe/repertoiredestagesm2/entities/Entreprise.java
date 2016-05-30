@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -140,4 +142,30 @@ public class Entreprise implements Parcelable {
         this.siteweb = parcel.readString();
         this.abbr = parcel.readString();
     }
+
+    public double getClosestDistanceToPoint(LatLng centre){
+        List<Localisation> localisations;
+        double lat, lng, lowest = Double.MAX_VALUE, distance;
+        try {
+            localisations = this.getLocalisations();
+        }catch(Exception e){
+            localisations = null;
+        }
+
+        if (localisations != null && localisations.size() > 0){
+            lat = centre.latitude;
+            lng = centre.longitude;
+            for(Localisation l: localisations){
+                distance = Localisation.distance(lat, l.getLatitude(), lng, l.getLongitude());
+                if(distance < lowest)
+                    lowest = distance;
+            }
+
+            return lowest;
+        }else{
+            return 0d;
+        }
+
+    }
+
 }

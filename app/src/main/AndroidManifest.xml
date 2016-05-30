@@ -13,20 +13,20 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MenuActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_menu" />
+            android:label="@string/title_activity_menu"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".DebuggingActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_debug" />
+            android:label="@string/title_activity_debug"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SearchMap"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_search_map" />
+            android:label="@string/title_activity_search_map"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".EntreListeActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_entreliste" />
+            android:label="@string/title_activity_entreliste"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainMenuActivity"
             android:screenOrientation="portrait">
@@ -43,23 +43,30 @@
 
         <activity
             android:name=".TabbedActivity"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_activityab"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".OptionsActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_options"/>
+            android:label="@string/title_activity_options"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".StudentActivity"
             android:label="@string/title_activity_student"
             android:screenOrientation="portrait" />
 
-        <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <!--
+     ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name=".FullListActivity"
+            android:label="@string/title_activity_list"
+            />
     </application>
 
 </manifest>

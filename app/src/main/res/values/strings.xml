@@ -55,4 +55,5 @@
     <string name="tags_empty">Ex: tag1;tag2;tag3&#8230;</string>
     <string name="stages">Stages :</string>
     <string name="title_activity_student">Details Etudiant</string>
+    <string name="title_activity_list">Liste des entreprises</string>
 </resources>

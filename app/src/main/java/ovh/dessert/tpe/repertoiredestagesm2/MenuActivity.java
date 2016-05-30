@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +26,8 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
                 "25 km",
                 "50 km",
                 "100 km",
-                "250 km"
+                "250 km",
+                "Partout"
         };
 
         Spinner sp = (Spinner) findViewById(R.id.spinner);

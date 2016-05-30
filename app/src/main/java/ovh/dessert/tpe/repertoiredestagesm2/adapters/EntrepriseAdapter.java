@@ -6,7 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +30,8 @@ public class EntrepriseAdapter extends BaseAdapter {
 
     private List<Entreprise> entreprises;
 
+    private LatLng centre;
+
     //Le contexte dans lequel est présent notre adapter
     private Context mContext;
 
@@ -35,8 +40,17 @@ public class EntrepriseAdapter extends BaseAdapter {
 
     private List<EntrepriseAdapterListener> mListener;
 
+    public EntrepriseAdapter(Context context, List<Entreprise> entreprises, LatLng centre) {
+        this.mContext = context;
+        this.centre = centre;
+        this.entreprises = entreprises;
+        this.mInflater = LayoutInflater.from(mContext);
+        this.mListener = new ArrayList<>();
+    }
+
     public EntrepriseAdapter(Context context, List<Entreprise> entreprises) {
         this.mContext = context;
+        this.centre = null;
         this.entreprises = entreprises;
         this.mInflater = LayoutInflater.from(mContext);
         this.mListener = new ArrayList<>();
@@ -72,23 +86,24 @@ public class EntrepriseAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LinearLayout item;
+        double lowDist;
         TextView nom, contact;
-        // TextView distance;
+        TextView distance;
 
-        if(convertView == null){
+        if (convertView == null) {
             item = (LinearLayout) mInflater.inflate(R.layout.entre_list_item, parent, false);
-        }else{
+        } else {
             item = (LinearLayout) convertView;
         }
 
         nom = (TextView) item.findViewById(R.id.entreprise_nom);
         contact = (TextView) item.findViewById(R.id.entreprise_contact);
-        // distance = (TextView) item.findViewById(R.id.distance);
+        distance = (TextView) item.findViewById(R.id.distance);
 
-        String title = entreprises.get(position).getNom();
+        String title = this.entreprises.get(position).getNom();
 
         try {
-            title += " (" + entreprises.get(position).getStages().size() + ")";
+            title += " (" + this.entreprises.get(position).getStages().size() + ")";
         } catch (Exception e) {
             title += " (?)";
         }
@@ -96,10 +111,19 @@ public class EntrepriseAdapter extends BaseAdapter {
         nom.setText(title);
 
         try {
-            List<Contact> contacts = entreprises.get(position).getContacts();
-            contact.setText(entreprises.get(position).getContacts().get(0).toString());
+            List<Contact> contacts = this.entreprises.get(position).getContacts();
+            contact.setText(this.entreprises.get(position).getContacts().get(0).toString());
         } catch (Exception e) {
             contact.setText("Aucun contact enregistré");
+        }
+
+        if (centre != null){
+            lowDist = this.entreprises.get(position).getClosestDistanceToPoint(centre);
+            if (lowDist > 0) {
+                distance.setText(String.format("%.1f", lowDist) + " km");
+            } else {
+                distance.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT, 0f));
+            }
         }
 
         item.setTag(position);
