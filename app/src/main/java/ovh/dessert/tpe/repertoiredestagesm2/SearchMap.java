@@ -1,5 +1,6 @@
 package ovh.dessert.tpe.repertoiredestagesm2;
 
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -13,24 +14,28 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import ovh.dessert.tpe.repertoiredestagesm2.entities.Entreprise;
 import ovh.dessert.tpe.repertoiredestagesm2.entities.Localisation;
 
-public class SearchMap extends FragmentActivity implements OnMapReadyCallback {
+public class SearchMap extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
     private String city, distance;
     private ArrayList<Localisation> localisations;
-    private double lat, lng;
+    private HashMap<Marker, String> markers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        markers = new HashMap<>();
 
         if (getIntent().getStringExtra("<City>") != null)
             city = getIntent().getStringExtra("<City>");
@@ -69,6 +74,7 @@ public class SearchMap extends FragmentActivity implements OnMapReadyCallback {
         Geocoder gc = new Geocoder(SearchMap.this);
 
         try {
+            mMap.setOnInfoWindowClickListener(this);
             List<Address> temp = gc.getFromLocationName(city, 1);
             if(!temp.isEmpty())
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(temp.get(0).getLatitude(), temp.get(0).getLongitude()), 12.5f));
@@ -77,11 +83,13 @@ public class SearchMap extends FragmentActivity implements OnMapReadyCallback {
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(localisations.get(0).getLatitude(), localisations.get(0).getLongitude()), 12.5f));
 
             for(Localisation l : this.localisations) {
-                if(l.getLatitude() != 0 && l.getLongitude() != 0)
-                    mMap.addMarker(new MarkerOptions()
+                if(l.getLatitude() != 0 && l.getLongitude() != 0) {
+                    Marker markTemp = mMap.addMarker(new MarkerOptions()
                             .position(new LatLng(l.getLatitude(), l.getLongitude())).icon(BitmapDescriptorFactory.defaultMarker(l.getAbbr().hashCode() % 360))
                             .title(l.getEntreprise().getNom())
                             .snippet(l.getNom()));
+                    this.markers.put(markTemp, l.getAbbr());
+                }
             }
 
         } catch (Exception e) {
@@ -90,5 +98,12 @@ public class SearchMap extends FragmentActivity implements OnMapReadyCallback {
             finish();
         }
 
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        Intent intent = new Intent(SearchMap.this, TabbedActivity.class);
+        intent.putExtra("<Code>", this.markers.get(marker));
+        startActivity(intent);
     }
 }
