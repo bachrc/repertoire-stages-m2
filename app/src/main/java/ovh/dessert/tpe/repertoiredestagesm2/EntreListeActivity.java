@@ -1,10 +1,15 @@
 package ovh.dessert.tpe.repertoiredestagesm2;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
 
@@ -26,9 +31,23 @@ public class EntreListeActivity extends AppCompatActivity implements EntrepriseA
         if(dist.equals("Partout"))
             dist = "20038 km";
 
+        Geocoder geo = new Geocoder(this);
+        LatLng centre = null;
+
+        try {
+            List<Address> list = geo.getFromLocationName(intent.getStringExtra("<City>"), 1);
+            if (list.size() > 0) {
+                centre = new LatLng(list.get(0).getLatitude(), list.get(0).getLongitude());
+            }
+        }catch(Exception e){
+            Log.d("Erreur", e.getLocalizedMessage());
+        }
+
+
+
         try {
             List<Entreprise> affichage = StagesDAO.getInstance(EntreListeActivity.this).searchEntreprises(EntreListeActivity.this.getApplicationContext(), intent.getStringExtra("<Nom>"), dist, intent.getStringExtra("<City>"), intent.getStringExtra("<Tags>"));
-            EntrepriseAdapter adapter = new EntrepriseAdapter(this, affichage);
+            EntrepriseAdapter adapter = new EntrepriseAdapter(this, affichage, centre);
             adapter.addListener(this);
             ListView tl = (ListView) findViewById(R.id.listlayout);
             tl.setAdapter(adapter);

@@ -142,7 +142,6 @@ public class StagesDAO extends SQLiteOpenHelper {
                         if (list.size() > 0) {
                             for(Localisation loc:temp.getLocalisations()) {
                                 if(Localisation.distance(list.get(0).getLatitude(), loc.getLatitude(), list.get(0).getLongitude(), loc.getLongitude()) <= distance) {
-                                    temp.setDistanceToPoint(Localisation.distance(list.get(0).getLatitude(), loc.getLatitude(), list.get(0).getLongitude(), loc.getLongitude()));
                                     retour.add(temp);
                                     break;
                                 }

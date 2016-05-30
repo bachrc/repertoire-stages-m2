@@ -3,6 +3,8 @@ package ovh.dessert.tpe.repertoiredestagesm2.entities;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +17,6 @@ public class Entreprise {
     private String nom;
     private String siteweb; // Peut être nul
     private String abbr;
-    private double dist;
 
     public Entreprise(Cursor results) {
         this(results.getString(0), (results.isNull(1) ? null : results.getString(1)), results.getString(2));
@@ -106,8 +107,29 @@ public class Entreprise {
         return abbr;
     }
 
-    public void setDistanceToPoint(double dist){ this.dist = dist; }
+    public double getClosestDistanceToPoint(LatLng centre){
+        List<Localisation> localisations;
+        double lat, lng, lowest = Double.MAX_VALUE, distance;
+        try {
+            localisations = this.getLocalisations();
+        }catch(Exception e){
+            localisations = null;
+        }
 
-    public double getDistanceToPoint(){ return dist; }
+        if (localisations != null && localisations.size() > 0){
+            lat = centre.latitude;
+            lng = centre.longitude;
+            for(Localisation l: localisations){
+                distance = Localisation.distance(lat, l.getLatitude(), lng, l.getLongitude());
+                if(distance < lowest)
+                    lowest = distance;
+            }
+
+            return lowest;
+        }else{
+            return 0d;
+        }
+
+    }
 
 }
