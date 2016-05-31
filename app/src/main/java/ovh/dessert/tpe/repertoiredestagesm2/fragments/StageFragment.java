@@ -73,7 +73,7 @@ public class StageFragment extends Fragment implements StageAdapter.StageAdapter
 
             startActivity(intent);
         }catch(Exception e){
-            Toast.makeText(StageFragment.this.getContext(), getString(R.string.erreur_etu), Toast.LENGTH_LONG).show();
+            Toast.makeText(StageFragment.this.getContext(), getString(R.string.erreur_stage), Toast.LENGTH_LONG).show();
         }
     }
 }

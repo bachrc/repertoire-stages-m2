@@ -50,4 +50,5 @@
     <string name="maitre_stage">Maître de stage</string>
     <string name="tuteur">Tuteur de stage</string>
     <string name="rapport">Rapport de stage</string>
+    <string name="erreur_stage">Erreur lors du chargement du stage.</string>
 </resources>
