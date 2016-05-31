@@ -124,6 +124,8 @@ public class EntrepriseAdapter extends BaseAdapter {
             } else {
                 distance.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT, 0f));
             }
+        }else{
+            distance.setLayoutParams(new TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT, TableLayout.LayoutParams.WRAP_CONTENT, 0f));
         }
 
         item.setTag(position);
