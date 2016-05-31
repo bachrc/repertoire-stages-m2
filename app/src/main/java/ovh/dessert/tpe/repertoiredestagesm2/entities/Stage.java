@@ -24,7 +24,7 @@ public class Stage {
         this(results.getString(0), (results.isNull(1) ? null : results.getString(1)), (results.isNull(2) ? null : results.getString(2)), results.getString(3), results.getString(4), Date.valueOf(results.getString(5)), Date.valueOf(results.getString(6)), (results.isNull(7) ? null : results.getString(7)), (results.isNull(8) ? null : results.getString(8)));
     }
 
-    public Stage(String sujet, String mots_cles, String lienRapport, String stagiaire, String entreprise, Date dateDebut, Date dateFin, String nomTuteur, String nomMaitre) {
+    public Stage(String sujet, String mots_cles, String lienRapport, String stagiaire, String entreprise, Date dateDebut, Date dateFin, String nomMaitre, String nomTuteur) {
         this.sujet = sujet;
         this.mots_cles = mots_cles;
         this.lienRapport = lienRapport;
