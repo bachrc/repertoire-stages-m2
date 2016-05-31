@@ -10,10 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import ovh.dessert.tpe.repertoiredestagesm2.R;
-import ovh.dessert.tpe.repertoiredestagesm2.StudentActivity;
+import ovh.dessert.tpe.repertoiredestagesm2.StageDetailActivity;
 import ovh.dessert.tpe.repertoiredestagesm2.adapters.StageAdapter;
 import ovh.dessert.tpe.repertoiredestagesm2.entities.Stage;
 
@@ -54,9 +56,21 @@ public class StageFragment extends Fragment implements StageAdapter.StageAdapter
 
     @Override
     public void onClickStage(Stage item, int position) {
-        Intent intent = new Intent(this.getContext(), StudentActivity.class);
+        Intent intent = new Intent(this.getContext(), StageDetailActivity.class);
         try {
+            String dateDebut = new SimpleDateFormat("d MMMM yyyy", Locale.FRANCE).format(item.getDateDebut());
+            String dateFin = new SimpleDateFormat("d MMMM yyyy", Locale.FRANCE).format(item.getDateFin());
+
+            intent.putExtra("<Sujet>", item.getSujet());
             intent.putExtra("<Login>", item.getStagiaire().getLogin());
+            intent.putExtra("<Entreprise>", item.getEntreprise().getAbbr());
+            intent.putExtra("<Debut>", dateDebut);
+            intent.putExtra("<Fin>", dateFin);
+            intent.putExtra("<Tuteur>", item.getNomTuteur());
+            intent.putExtra("<Maitre>", item.getNomMaitre());
+            intent.putExtra("<Rapport>", item.getLienRapport());
+
+
             startActivity(intent);
         }catch(Exception e){
             Toast.makeText(StageFragment.this.getContext(), getString(R.string.erreur_etu), Toast.LENGTH_LONG).show();

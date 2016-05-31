@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:padding="10dp"
+    android:layout_height="match_parent"
+    tools:context="ovh.dessert.tpe.repertoiredestagesm2.StageDetailActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/sta_label_etu"
+                android:layout_width="match_parent"
+                android:text="@string/etudiant"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/sta_nom_etu"
+                android:layout_marginBottom="23dp"
+                android:textSize="20sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/sta_label_ent"
+                android:layout_width="match_parent"
+                android:text="@string/entreprise"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/sta_nom_ent"
+                android:layout_marginBottom="23dp"
+                android:textSize="20sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:text="@string/sujet"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/sta_sujet"
+                android:layout_marginBottom="23dp"
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:text="@string/datestage"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/sta_date"
+                android:layout_marginBottom="23dp"
+                android:textSize="20sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:text="@string/maitre_stage"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/sta_maitre"
+                android:layout_marginBottom="23dp"
+                android:textSize="20sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:text="@string/tuteur"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/sta_tuteur"
+                android:layout_marginBottom="23dp"
+                android:textSize="20sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:text="@string/rapport"
+                android:textStyle="bold"
+                android:textSize="25sp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/sta_rapport"
+                android:autoLink="all"
+                android:textSize="20sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
