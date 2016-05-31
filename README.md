@@ -40,19 +40,3 @@ chmod +x gradlew
 Gradle va ici télécharger les composants nécéssaires à la compilation du code. Quelques giga-octets de mémoires sont à prévoir, ainsi que de la patience.
 
 Il ne vous reste plus qu'à installer l'application .apk résultée.
-
-<!--
-- Difficultés
-
-Récupérer une erreur SQL avec SQLite
-La lecture précise d'un CSV : OpenCSV avec Maven
-L'établissement d'un classeur simple pour l'export et la saisie
-Etablir un environnement de travail et de versionnement.
-
-La fonction acos qui n'existe pas sous SQLite. Impossible de faire une requête simple. 
-
-    SELECT * FROM Entreprise WHERE abbr IN(SELECT DISTINCT abbr FROM Localisation WHERE acos(sin(?) * sin(Lat * (3.14159265359/180)) + cos(?) * cos(Lat * (3.14159265359/180)) * cos(? - (Lon * (3.14159265359/180)))) * 6371 <= ?) --!>;
-
-
-
-dddd
