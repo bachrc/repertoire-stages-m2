@@ -23,15 +23,15 @@ public class StageAdapter extends BaseAdapter {
         public void onClickStage(Stage item, int position);
     }
 
-    private List<Stage> stages;
+    protected List<Stage> stages;
 
     //Le contexte dans lequel est présent notre adapter
-    private Context mContext;
+    protected Context mContext;
 
     //Un mécanisme pour gérer l'affichage graphique depuis un layout XML
-    private LayoutInflater mInflater;
+    protected LayoutInflater mInflater;
 
-    private List<StageAdapterListener> mListener;
+    protected List<StageAdapterListener> mListener;
 
     public StageAdapter(Context context, List<Stage> stages) {
         this.mContext = context;
