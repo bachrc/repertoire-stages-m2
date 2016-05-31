@@ -125,7 +125,7 @@ public class StagesDAO extends SQLiteOpenHelper {
         return retour;
     }
 
-    public List<Entreprise> searchEntreprises(Context context, String nom, String rayon, String ville, String tags) throws Exception{
+    public List<Entreprise> searchEntreprises(Context context, ArrayList<Localisation> local, String nom, String rayon, String ville, String tags) throws Exception{
         SQLiteDatabase db = this.getReadableDatabase();
         List<Entreprise> retour = new ArrayList<>();
 
@@ -164,6 +164,7 @@ public class StagesDAO extends SQLiteOpenHelper {
                             for(Localisation loc:temp.getLocalisations()) {
                                 if(Localisation.distance(list.get(0).getLatitude(), loc.getLatitude(), list.get(0).getLongitude(), loc.getLongitude()) <= distance) {
                                     retour.add(temp);
+                                    local.add(loc);
                                     break;
                                 }
                             }

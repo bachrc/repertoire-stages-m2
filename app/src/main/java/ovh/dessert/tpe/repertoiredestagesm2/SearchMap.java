@@ -1,6 +1,7 @@
 package ovh.dessert.tpe.repertoiredestagesm2;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -41,6 +43,11 @@ public class SearchMap extends FragmentActivity implements OnMapReadyCallback, G
             city = getIntent().getStringExtra("<City>");
         else
             city = "Le Havre";
+
+        if (getIntent().getStringExtra("<Distance>") != null)
+            distance = getIntent().getStringExtra("<Distance>").split(" ")[0];
+        else
+            distance = "0";
 
         if (getIntent().getParcelableArrayListExtra("<Localisations>") != null)
             localisations = getIntent().getParcelableArrayListExtra("<Localisations>");
@@ -76,11 +83,20 @@ public class SearchMap extends FragmentActivity implements OnMapReadyCallback, G
         try {
             mMap.setOnInfoWindowClickListener(this);
             List<Address> temp = gc.getFromLocationName(city, 1);
+            int rayon = Integer.parseInt(this.distance) * 1000;
             if(!temp.isEmpty())
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(temp.get(0).getLatitude(), temp.get(0).getLongitude()), 12.5f));
 
-            if(!localisations.isEmpty())
+            else if(!localisations.isEmpty())
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(localisations.get(0).getLatitude(), localisations.get(0).getLongitude()), 12.5f));
+
+            if(rayon > 0) {
+                mMap.addCircle(new CircleOptions()
+                        .center(mMap.getCameraPosition().target)
+                        .radius(rayon)
+                        .strokeColor(0x441976D2)
+                        .fillColor(0x66BBDEFB));
+            }
 
             for(Localisation l : this.localisations) {
                 if(l.getLatitude() != 0 && l.getLongitude() != 0) {
