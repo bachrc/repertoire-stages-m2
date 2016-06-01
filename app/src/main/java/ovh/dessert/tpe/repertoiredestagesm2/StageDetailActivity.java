@@ -80,9 +80,9 @@ public class StageDetailActivity extends AppCompatActivity  {
 
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(StageDetailActivity.this, TabbedActivity.class);
-                        intent.putExtra("<Code>", ent_code);
-                        startActivity(intent);
+                    Intent intent = new Intent(StageDetailActivity.this, TabbedActivity.class);
+                    intent.putExtra("<Code>", ent_code);
+                    startActivity(intent);
                     }
                 });
             }

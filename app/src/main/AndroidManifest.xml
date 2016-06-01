@@ -66,10 +66,16 @@
         <activity
             android:name=".FullListActivity"
             android:label="@string/title_activity_list"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".StageDetailActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/fichestage"/>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".StageDetailActivity"
+            android:label="@string/fichestage"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ContactActivity"
+            android:label="@string/detailcontact"
+            android:screenOrientation="portrait">
+
+        </activity>
     </application>
 
 </manifest>
