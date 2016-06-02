@@ -157,15 +157,16 @@ public class StagesDAO extends SQLiteOpenHelper {
                     Entreprise temp = new Entreprise(results);
                     if(!ville.isEmpty()) {
                         int distance = Integer.parseInt(rayon.split(" ")[0]);
-
+                        int i = 0;
                         Geocoder geo = new Geocoder(context);
                         List<Address> list = geo.getFromLocationName(ville, 1);
                         if (list.size() > 0) {
                             for(Localisation loc:temp.getLocalisations()) {
                                 if(Localisation.distance(list.get(0).getLatitude(), loc.getLatitude(), list.get(0).getLongitude(), loc.getLongitude()) <= distance) {
-                                    retour.add(temp);
+                                    if(i++ == 0)
+                                        retour.add(temp);
+
                                     local.add(loc);
-                                    break;
                                 }
                             }
                         }
