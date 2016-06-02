@@ -13,6 +13,10 @@ public class StageDetailActivity extends AppCompatActivity  {
     private String ent_code, etu_code;
     private final String NR = "ITEM_NON_RENSEIGNE";
 
+    /**
+     * Crée une activité contenant tous les détails sur un stage.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

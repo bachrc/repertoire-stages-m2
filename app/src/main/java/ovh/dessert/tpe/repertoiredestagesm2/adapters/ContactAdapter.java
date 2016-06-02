@@ -19,20 +19,31 @@ import ovh.dessert.tpe.repertoiredestagesm2.entities.Contact;
  */
 public class ContactAdapter extends BaseAdapter {
 
+
+    /**
+     * Ecouteur sur un item de liste Contact
+     */
     public interface ContactAdapterListener {
         public void onClickContact(Contact item, int position);
     }
 
+    // Liste de contacts
     private List<Contact> contacts;
 
-    //Le contexte dans lequel est présent notre adapter
+    // Le contexte dans lequel est présent notre adapter
     private Context mContext;
 
-    //Un mécanisme pour gérer l'affichage graphique depuis un layout XML
+    // Un mécanisme pour gérer l'affichage graphique depuis un layout XML
     private LayoutInflater mInflater;
 
+    // Liste d'écouteurs de contacts.
     private List<ContactAdapterListener> mListener;
 
+    /**
+     * Crée un adapter, pour afficher une liste de contacts.
+     * @param context Le contexte associé à l'utilisation de l'adapter
+     * @param contacts La liste de contacts
+     */
     public ContactAdapter(Context context, List<Contact> contacts) {
         this.mContext = context;
         this.contacts = contacts;
@@ -40,21 +51,44 @@ public class ContactAdapter extends BaseAdapter {
         this.mListener = new ArrayList<>();
     }
 
+    /**
+     * Renvoie le nombre de contacts.
+     * @return Nombre de contacts présents
+     */
     @Override
     public int getCount() {
         return this.contacts.size();
     }
 
+
+    /**
+     * Renvoie un contact à une position donnée
+     * @param position Une position particulière
+     * @return Le contact qui se trouve à cette position
+     */
     @Override
     public Object getItem(int position) {
         return this.contacts.get(position);
     }
 
+    /**
+     * Renvoie un ID associé à la liste de contacts
+     * @param position Une position
+     * @return L'ID de l'objet à cette position
+     */
     @Override
     public long getItemId(int position) {
         return position;
     }
 
+
+    /**
+     * Affiche un item de liste.
+     * @param position la position de l'item
+     * @param convertView
+     * @param parent
+     * @return Un item de liste formaté selon un layout prédéfini.
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LinearLayout item;
@@ -88,6 +122,10 @@ public class ContactAdapter extends BaseAdapter {
         return item;
     }
 
+    /**
+     * Ajoute un écouteur de contact
+     * @param contactAdapterListener L'écouteur de contact
+     */
     public void addListener(ContactAdapterListener contactAdapterListener){
         mListener.add(contactAdapterListener);
     }

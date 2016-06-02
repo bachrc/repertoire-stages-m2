@@ -20,6 +20,10 @@ import ovh.dessert.tpe.repertoiredestagesm2.entities.Stagiaire;
 
 public class StudentActivity extends AppCompatActivity implements StageAdapter.StageAdapterListener{
 
+    /**
+     * Crée une activité contenant tous les détails sur un étudiant.
+     * @param savedInstanceState
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student);
@@ -121,6 +125,12 @@ public class StudentActivity extends AppCompatActivity implements StageAdapter.S
         }
     }
 
+
+    /**
+     * Ouvre une activité contenant les détails d'un stage dans la liste des stages de l'étudiant.
+     * @param item L'item tapé sur l'écran.
+     * @param position La position de cet item.
+     */
     @Override
     public void onClickStage(Stage item, int position) {
         Intent intent = new Intent(this, StageDetailActivity.class);

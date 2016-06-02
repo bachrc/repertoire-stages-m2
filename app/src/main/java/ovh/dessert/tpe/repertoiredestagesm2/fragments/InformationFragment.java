@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +31,11 @@ public class InformationFragment extends Fragment implements LocalisationAdapter
     }
 
     /**
-     * Returns a new instance of this fragment for the given section
-     * number.
+     * Crée un Fragment contenant les détails de l'entreprise : Localisations, site et nom.
+     * @param name Le nom de l'entreprise
+     * @param website Le site internet de l'entreprise
+     * @param list La liste de localisations disponibles
+     * @return Une nouvelle instance du Fragment Information
      */
     public static InformationFragment newInstance(String name, String website, List<Localisation> list) {
         InformationFragment fragment = new InformationFragment();
@@ -45,6 +47,13 @@ public class InformationFragment extends Fragment implements LocalisationAdapter
         return fragment;
     }
 
+    /**
+     * Crée la page contenant les informations de l'entreprise
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return La vue contenant les informations
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,6 +73,11 @@ public class InformationFragment extends Fragment implements LocalisationAdapter
         return rootView;
     }
 
+    /**
+     * Ouvre une carte situant les localisations de l'entreprise.
+     * @param item La localisation selectionnée
+     * @param position La position de cette localisation
+     */
     @Override
     public void onClickLocalisation(Localisation item, int position) {
         ArrayList<Localisation> temp = new ArrayList<>();

@@ -15,6 +15,10 @@ import java.util.List;
 
 public class MenuActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    /**
+     * Crée un menu de recherche par distance, nom d'entreprise et par tags.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,10 +67,12 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
         sp.setAdapter(aa);
     }
 
+
     public void goToDebug(View v) {
         Intent intent = new Intent(MenuActivity.this, DebuggingActivity.class);
         startActivity(intent);
     }
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

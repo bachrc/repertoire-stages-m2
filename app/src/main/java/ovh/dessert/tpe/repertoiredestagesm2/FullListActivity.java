@@ -13,6 +13,10 @@ import ovh.dessert.tpe.repertoiredestagesm2.entities.Entreprise;
 
 public class FullListActivity extends AppCompatActivity implements EntrepriseAdapter.EntrepriseAdapterListener {
 
+    /**
+     * Crée la liste entière d'entreprises depuis la base de données.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +34,11 @@ public class FullListActivity extends AppCompatActivity implements EntrepriseAda
         }
     }
 
+    /**
+     * Lance une activité de détails d'entreprise sur l'item correspondant.
+     * @param item L'item de la liste
+     * @param position La position de cet item
+     */
     @Override
     public void onClickEntreprise(Entreprise item, int position) {
         Intent intent = new Intent(FullListActivity.this, TabbedActivity.class);

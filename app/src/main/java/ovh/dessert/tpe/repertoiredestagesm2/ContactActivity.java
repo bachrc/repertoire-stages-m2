@@ -15,6 +15,10 @@ public class ContactActivity extends AppCompatActivity {
 
     private String ent_code, tel;
 
+    /**
+     * Crée une activité contenant des détails sur un contact particulier.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

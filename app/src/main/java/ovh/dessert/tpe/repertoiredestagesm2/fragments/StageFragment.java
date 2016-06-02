@@ -33,6 +33,11 @@ public class StageFragment extends Fragment implements StageAdapter.StageAdapter
     }
 
 
+    /**
+     * Crée un Fragment contenant les stages effectués au sein d'une entreprise
+     * @param list La liste de stages effectués
+     * @return Une nouvelle instance du Fragment Stage
+     */
     public static StageFragment newInstance(List<Stage> list) {
         StageFragment fragment = new StageFragment();
         Bundle args = new Bundle();
@@ -41,6 +46,13 @@ public class StageFragment extends Fragment implements StageAdapter.StageAdapter
         return fragment;
     }
 
+    /**
+     * Crée la page contenant la liste de stages effectués
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return La liste de stages
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,6 +66,11 @@ public class StageFragment extends Fragment implements StageAdapter.StageAdapter
         return rootView;
     }
 
+    /**
+     * Ouvre une activité contenant les détails complets d'un stage.
+     * @param item Le stage selectionné
+     * @param position La position de ce stage
+     */
     @Override
     public void onClickStage(Stage item, int position) {
         Intent intent = new Intent(this.getContext(), StageDetailActivity.class);

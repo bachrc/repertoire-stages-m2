@@ -24,22 +24,35 @@ import ovh.dessert.tpe.repertoiredestagesm2.entities.Entreprise;
  */
 public class EntrepriseAdapter extends BaseAdapter {
 
+    /**
+     * Ecouteur sur un item de liste Entreprise
+     */
     public interface EntrepriseAdapterListener {
         public void onClickEntreprise(Entreprise item, int position);
     }
 
+    // Liste d'entreprises
     private List<Entreprise> entreprises;
 
+    // Le point central de la recherche par distance
     private LatLng centre;
 
-    //Le contexte dans lequel est présent notre adapter
+    // Le contexte dans lequel est présent notre adapter
     private Context mContext;
 
-    //Un mécanisme pour gérer l'affichage graphique depuis un layout XML
+    // Un mécanisme pour gérer l'affichage graphique depuis un layout XML
     private LayoutInflater mInflater;
 
+    // Liste d'écouteurs de contacts.
     private List<EntrepriseAdapterListener> mListener;
 
+
+    /**
+     * Crée un adapter, pour afficher une liste d'entreprises à partir d'un point central de recherche.
+     * @param context Le contexte associé à l'utilisation de l'adapter
+     * @param entreprises La liste d'entreprises
+     * @param centre Le point central de la recherche
+     */
     public EntrepriseAdapter(Context context, List<Entreprise> entreprises, LatLng centre) {
         this.mContext = context;
         this.centre = centre;
@@ -48,6 +61,11 @@ public class EntrepriseAdapter extends BaseAdapter {
         this.mListener = new ArrayList<>();
     }
 
+    /**
+     * Crée un adapter, pour afficher une liste d'entreprises.
+     * @param context Le contexte associé à l'utilisation de l'adapter
+     * @param entreprises La liste d'entreprises
+     */
     public EntrepriseAdapter(Context context, List<Entreprise> entreprises) {
         this.mContext = context;
         this.centre = null;
@@ -56,6 +74,10 @@ public class EntrepriseAdapter extends BaseAdapter {
         this.mListener = new ArrayList<>();
     }
 
+    /**
+     * Crée un adapter pour afficher une liste d'entreprises depuis la base de données.
+     * @param context Le contexte associé à l'utilisation de l'adapter
+     */
     public EntrepriseAdapter(Context context) {
         try {
             this.entreprises = StagesDAO.getInstance(context).getAllEntreprises();
@@ -68,20 +90,40 @@ public class EntrepriseAdapter extends BaseAdapter {
         }
     }
 
+    /**
+     * Renvoie le nombre d'entreprises.
+     * @return Nombre d'entreprises présents
+     */
     @Override
     public int getCount() {
         return this.entreprises.size();
     }
 
+    /**
+     * Renvoie une entreprise à une position donnée
+     * @param position Une position particulière
+     * @return L'entreprise qui se trouve à cette position
+     */
     @Override
-    public Object getItem(int position) {
-        return this.entreprises.get(position);
-    }
+    public Object getItem(int position) { return this.entreprises.get(position); }
 
+    /**
+     * Renvoie un ID associé à la liste d'entreprises
+     * @param position Une position
+     * @return L'ID de l'objet à cette position
+     */
     @Override
     public long getItemId(int position) {
         return position;
     }
+
+    /**
+     * Affiche un item de liste.
+     * @param position la position de l'item
+     * @param convertView
+     * @param parent
+     * @return Un item de liste formaté selon un layout prédéfini.
+     */
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -141,6 +183,11 @@ public class EntrepriseAdapter extends BaseAdapter {
         return item;
     }
 
+
+    /**
+     * Ajoute un écouteur d'entreprise
+     * @param entrepriseAdapterListener L'écouteur d'entreprise
+     */
     public void addListener(EntrepriseAdapterListener entrepriseAdapterListener){
         mListener.add(entrepriseAdapterListener);
     }

@@ -23,6 +23,7 @@ public class StageAdapter extends BaseAdapter {
         public void onClickStage(Stage item, int position);
     }
 
+    //
     protected List<Stage> stages;
 
     //Le contexte dans lequel est présent notre adapter
@@ -31,6 +32,7 @@ public class StageAdapter extends BaseAdapter {
     //Un mécanisme pour gérer l'affichage graphique depuis un layout XML
     protected LayoutInflater mInflater;
 
+    //
     protected List<StageAdapterListener> mListener;
 
     public StageAdapter(Context context, List<Stage> stages) {

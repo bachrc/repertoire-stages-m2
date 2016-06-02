@@ -29,7 +29,11 @@ public class ContactFragment extends Fragment implements ContactAdapter.ContactA
         // Required empty public constructor
     }
 
-
+    /**
+     * Crée une nouvelle instance de Fragment
+     * @param list La liste de contact à afficher
+     * @return Une nouvelle instance du Fragment Contact
+     */
     public static ContactFragment newInstance(List<Contact> list) {
         ContactFragment fragment = new ContactFragment();
         Bundle args = new Bundle();
@@ -38,6 +42,13 @@ public class ContactFragment extends Fragment implements ContactAdapter.ContactA
         return fragment;
     }
 
+    /**
+     * Crée la page contenant la liste.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return La vue de la liste
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -51,6 +62,11 @@ public class ContactFragment extends Fragment implements ContactAdapter.ContactA
         return rootView;
     }
 
+    /**
+     * Ouvre une activité contenant les détails du contact selectionné
+     * @param item Le contact selectionné
+     * @param position La position de ce contact
+     */
     @Override
     public void onClickContact(Contact item, int position) {
         Intent i = new Intent(this.getContext(), ContactActivity.class);
