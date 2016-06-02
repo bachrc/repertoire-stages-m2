@@ -51,4 +51,6 @@
     <string name="tuteur">Tuteur de stage</string>
     <string name="rapport">Rapport de stage</string>
     <string name="erreur_stage">Erreur lors du chargement du stage.</string>
+    <string name="detailcontact">Détail Contact</string>
+    <string name="at">à</string>
 </resources>
