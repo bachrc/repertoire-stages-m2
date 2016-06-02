@@ -9,7 +9,8 @@ import java.util.List;
 import ovh.dessert.tpe.repertoiredestagesm2.StagesDAO;
 
 /**
- * Created by totorolepacha on 02/05/16.
+ * Classe représentant un stagiaire
+ * Created by Yohann Bacha on 02/05/16.
  */
 public class Stagiaire {
     private String nom;
@@ -19,10 +20,23 @@ public class Stagiaire {
     private String mail; // Peut être nul
     private String tel; // Peut être nul
 
+    /**
+     * Constructeur à partir des valeurs d'un objet Cursor
+     * @param results L'objet Cursor à faire passer au constructeur
+     */
     public Stagiaire(Cursor results) {
         this(results.getString(0), results.getString(1), results.getString(2), results.getString(3), (results.isNull(4) ? null : results.getString(4)), (results.isNull(5) ? null : results.getString(5)));
     }
 
+    /**
+     * Constructeur d'un objet Stagiaire
+     * @param nom Le nom du stagiaire
+     * @param prenom Le prénom du stagiaire
+     * @param login Le login du stagiaire (Doit être UNIQUE)
+     * @param promotion La promotion de l'élève
+     * @param mail Le mail de l'élève (Peut être nul)
+     * @param tel Le téléphone de l'élève (Peut être nul)
+     */
     public Stagiaire(String nom, String prenom, String login, String promotion, String mail, String tel) {
         this.nom = nom;
         this.prenom = prenom;
@@ -32,6 +46,11 @@ public class Stagiaire {
         this.tel = tel;
     }
 
+    /**
+     * Indique si l'élève a été employé depuis
+     * @return Booléen indiquant si un emploi est répertorié dans la base
+     * @throws Exception Si erreur SQL il y a
+     */
     public boolean isEmployed() throws Exception {
         SQLiteDatabase db = StagesDAO.getInstance(null).getReadableDatabase();
 
@@ -48,6 +67,11 @@ public class Stagiaire {
         }
     }
 
+    /**
+     * Retourne l'Emploi rattaché à ce stagiaire
+     * @return L'objet Emploi
+     * @throws Exception Renvoyée s'il y a une erreur SQL, ou si aucun emploi n'existe.
+     */
     public Emploi getEmploi() throws Exception{
         SQLiteDatabase db = StagesDAO.getInstance(null).getReadableDatabase();
         Cursor results = db.rawQuery("SELECT * FROM Emploi WHERE stagiaire = ?", new String[]{this.login});
@@ -66,6 +90,11 @@ public class Stagiaire {
         }
     }
 
+    /**
+     * Retourne la liste des Stages du stagiaire
+     * @return La liste en question
+     * @throws Exception Si erreur SQL il y a
+     */
     public List<Stage> getStages() throws Exception{
         SQLiteDatabase db = StagesDAO.getInstance(null).getReadableDatabase();
         List<Stage> retour = new ArrayList<>();
