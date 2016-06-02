@@ -101,6 +101,7 @@ public class ContactAdapter extends BaseAdapter {
             item = (LinearLayout) convertView;
         }
 
+        // On affiche le nom ainsi que le numéro de téléphone du contact.
         nom = (TextView) item.findViewById(R.id.nom_contact);
         nomS = contacts.get(position).toString();
         phone = (TextView) item.findViewById(R.id.phone_contact);

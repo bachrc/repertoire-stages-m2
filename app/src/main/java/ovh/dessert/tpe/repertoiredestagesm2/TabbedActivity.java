@@ -50,27 +50,38 @@ public class TabbedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabbed);
 
+        // On récupère le code entreprise
         entCode = getIntent().getStringExtra("<Code>");
+
+        // Le site web
         try {
             site = StagesDAO.getInstance(this).getEntreprise(entCode).getSiteweb();
         } catch (Exception e) {
             site = "Aucun site";
         }
+
+        // Le nom de l'entreprise
         try {
             entName = StagesDAO.getInstance(this).getEntreprise(entCode).getNom();
         } catch (Exception e) {
             entName = "Aucun nom";
         }
+
+        // Les localisations des différents sites
         try {
             locs = (ArrayList<Localisation>) StagesDAO.getInstance(this).getEntreprise(entCode).getLocalisations();
         } catch (Exception e) {
             locs = new ArrayList<>();
         }
+
+        // Les contacts
         try {
             conts = (ArrayList<Contact>) StagesDAO.getInstance(this).getEntreprise(entCode).getContacts();
         } catch (Exception e) {
             conts = new ArrayList<>();
         }
+
+        // Les stages effectués.
         try {
             stages = (ArrayList<Stage>) StagesDAO.getInstance(this).getEntreprise(entCode).getStages();
         } catch (Exception e) {

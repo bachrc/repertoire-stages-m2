@@ -98,6 +98,7 @@ public class LocalisationAdapter extends BaseAdapter {
             item = (LinearLayout) convertView;
         }
 
+        // On affiche l'adresse et prépare les taps sur la carte.
         adresse = (TextView) item.findViewById(R.id.localisation);
         String adr = localisations.get(position).getAdresse();
         adresse.setText(adr);

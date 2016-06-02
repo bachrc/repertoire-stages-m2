@@ -142,6 +142,7 @@ public class EntrepriseAdapter extends BaseAdapter {
         contact = (TextView) item.findViewById(R.id.entreprise_contact);
         distance = (TextView) item.findViewById(R.id.distance);
 
+        // On récupère le nom de l'entreprise, et on y ajoute le nombre de stages acceptés
         String title = this.entreprises.get(position).getNom();
 
         try {
@@ -152,6 +153,8 @@ public class EntrepriseAdapter extends BaseAdapter {
 
         nom.setText(title);
 
+        // Ensuite, on affiche le premier contact affiché dans la liste. S'il n'y en a pas, on indique
+        // à l'utilisateur qu'aucun contact n'est enregistré.
         try {
             List<Contact> contacts = this.entreprises.get(position).getContacts();
             contact.setText(this.entreprises.get(position).getContacts().get(0).toString());
@@ -159,6 +162,9 @@ public class EntrepriseAdapter extends BaseAdapter {
             contact.setText("Aucun contact enregistré");
         }
 
+        // S'il existe un point central où effectuer la recherche par distance, on calcule la distance
+        // entre ce point et les entreprises présentes dans ce rayon. On affiche la distance la plus
+        // faible.
         if (centre != null){
             lowDist = this.entreprises.get(position).getClosestDistanceToPoint(centre);
             if (lowDist > 0) {

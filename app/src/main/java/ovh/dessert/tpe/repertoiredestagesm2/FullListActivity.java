@@ -22,6 +22,8 @@ public class FullListActivity extends AppCompatActivity implements EntrepriseAda
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_list);
 
+        // On essaie de récupérer la liste d'entreprises, ainsi que d'écouter chaque item qui correspond.
+        // Si la liste ne conclut pas, alors on renvoie une erreur.
         try {
             List<Entreprise> affichage = StagesDAO.getInstance(this).getAllEntreprises();
             EntrepriseAdapter adapter = new EntrepriseAdapter(this, affichage);

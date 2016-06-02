@@ -44,6 +44,7 @@ public class EntreListeActivity extends AppCompatActivity implements EntrepriseA
         Geocoder geo = new Geocoder(this);
         LatLng centre = null;
 
+        // On récupère le point central de la recherche ainsi que la liste d'entreprises rentrant dans un rayon.
         try {
             ville = intent.getStringExtra("<City>");
             List<Address> list = geo.getFromLocationName(ville, 1);
@@ -53,8 +54,6 @@ public class EntreListeActivity extends AppCompatActivity implements EntrepriseA
         }catch(Exception e){
             Log.d("Erreur", e.getLocalizedMessage());
         }
-
-
 
         try {
             this.localisations = new ArrayList<>();
@@ -87,10 +86,8 @@ public class EntreListeActivity extends AppCompatActivity implements EntrepriseA
      * @return true, si l'activité a été lancée.
      */
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
+        // On gère les taps sur les différents boutons de la barre de menu. Ici, on n'a que la carte de
+        // disponible, et un tap sur l'icône de carte ouvrira la carte ainsi que les différentes localisations présentes.
         switch (item.getItemId()){
             case R.id.carte_search:
                 Intent intent = new Intent(EntreListeActivity.this, SearchMap.class);

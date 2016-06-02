@@ -23,7 +23,7 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        // Restons sérieux, ok
+        // Les différentes distances de recherche. Ces incrémentations sont arbitraires.
         String[] distances = {
                 "5 km",
                 "10 km",
@@ -43,6 +43,8 @@ public class MenuActivity extends AppCompatActivity implements AdapterView.OnIte
         for (String s : distances) {
             str.add(s);
         }
+
+        // On met un écouteur qui permet de lancer une recherche sur le bouton correspondant.
         et.setOnClickListener(new View.OnClickListener() {
 
             @Override
