@@ -1,39 +1,26 @@
 <resources>
     <string name="advancedsearch">Recherche</string>
     <string name="app_name">Repertoire de Stages M2</string>
-
     <string name="bonjour">Bonjour, joli étrangère.</string>
     <string name="button_send">Rechercher</string>
-
     <string name="credit">2016 | Yohann BACHA et Romain FOLATRE</string>
     <string name="contact">Contact</string>
-
     <string name="dist">Distance</string>
-
     <string name="ent_empty">Ex. Total, BNP Paribas, etc.</string>
     <string name="entreprise_txt">Nom</string>
-
     <string name="from">de</string>
-
     <string name="init_db">Initialiser BDD</string>
     <string name="information">Information</string>
-
-    <string name="jesaispas">JENNY</string>
-
     <string name="map">Carte</string>
-
     <string name="prompt">Choisir…</string>
-
     <string name="search">Liste</string>
     <string name="settings">Paramètres</string>
     <string name="stage">Stages</string>
-
     <string name="options">OPTIONS</string>
     <string name="aboutTitle">A propos</string>
     <string name="about">Application réalisée dans le cadre du TPE durant le mois d\'Avril et de Mai 2016 par Yohann BACHA et Romain FOLÂTRE, avec l\'encadrement de Frédéric GUINAND.</string>
     <string name="versionInt">Version</string>
     <string name="version">0.1</string>
-
     <string name="tags_txt">Tags</string>
     <string name="title_activity_debug">Menu de Debug</string>
     <string name="title_activity_maps">Map</string>
@@ -42,9 +29,7 @@
     <string name="title_activity_entreliste">Résultats de la recherche</string>
     <string name="title_activity_search_map">Carte</string>
     <string name="town">Ville</string>
-
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyALIyJycOHYyIcR8qqTa2jP3oB1eF25hzI</string>
-
     <string name="title_activity_activityab">Entreprise</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: %1$d</string>
@@ -56,4 +41,16 @@
     <string name="stages">Stages :</string>
     <string name="title_activity_student">Details Etudiant</string>
     <string name="title_activity_list">Liste des entreprises</string>
+    <string name="recherche_carte">Voir sur la carte</string>
+    <string name="fichestage">Fiche de Stage</string>
+    <string name="etudiant">Etudiant</string>
+    <string name="entreprise">Entreprise</string>
+    <string name="sujet">Sujet</string>
+    <string name="datestage">Date du stage</string>
+    <string name="maitre_stage">Maître de stage</string>
+    <string name="tuteur">Tuteur de stage</string>
+    <string name="rapport">Rapport de stage</string>
+    <string name="erreur_stage">Erreur lors du chargement du stage.</string>
+    <string name="detailcontact">Détail Contact</string>
+    <string name="at">à</string>
 </resources>

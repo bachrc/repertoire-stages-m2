@@ -1,5 +1,6 @@
 package ovh.dessert.tpe.repertoiredestagesm2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.LinearLayout;
@@ -7,14 +8,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
+import ovh.dessert.tpe.repertoiredestagesm2.adapters.StageAdapter;
 import ovh.dessert.tpe.repertoiredestagesm2.adapters.StageStudentAdapter;
 import ovh.dessert.tpe.repertoiredestagesm2.entities.Emploi;
 import ovh.dessert.tpe.repertoiredestagesm2.entities.Stage;
 import ovh.dessert.tpe.repertoiredestagesm2.entities.Stagiaire;
 
-public class StudentActivity extends AppCompatActivity {
+public class StudentActivity extends AppCompatActivity implements StageAdapter.StageAdapterListener{
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +103,7 @@ public class StudentActivity extends AppCompatActivity {
 
                 if (stages != null) {
                     adapter = new StageStudentAdapter(this, stages);
+                    adapter.addListener(this);
                     listView.setAdapter(adapter);
                 }
 
@@ -116,4 +121,26 @@ public class StudentActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onClickStage(Stage item, int position) {
+        Intent intent = new Intent(this, StageDetailActivity.class);
+        try {
+            String dateDebut = new SimpleDateFormat("d MMMM yyyy", Locale.FRANCE).format(item.getDateDebut());
+            String dateFin = new SimpleDateFormat("d MMMM yyyy", Locale.FRANCE).format(item.getDateFin());
+
+            intent.putExtra("<Sujet>", item.getSujet());
+            intent.putExtra("<Login>", item.getStagiaire().getLogin());
+            intent.putExtra("<Entreprise>", item.getEntreprise().getAbbr());
+            intent.putExtra("<Debut>", dateDebut);
+            intent.putExtra("<Fin>", dateFin);
+            intent.putExtra("<Tuteur>", item.getNomTuteur());
+            intent.putExtra("<Maitre>", item.getNomMaitre());
+            intent.putExtra("<Rapport>", item.getLienRapport());
+
+
+            startActivity(intent);
+        }catch(Exception e){
+            Toast.makeText(this, getString(R.string.erreur_stage), Toast.LENGTH_LONG).show();
+        }
+    }
 }

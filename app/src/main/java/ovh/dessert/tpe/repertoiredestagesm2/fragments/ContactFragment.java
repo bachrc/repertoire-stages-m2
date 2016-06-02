@@ -2,17 +2,16 @@ package ovh.dessert.tpe.repertoiredestagesm2.fragments;
 
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.List;
 
+import ovh.dessert.tpe.repertoiredestagesm2.ContactActivity;
 import ovh.dessert.tpe.repertoiredestagesm2.R;
 import ovh.dessert.tpe.repertoiredestagesm2.adapters.ContactAdapter;
 import ovh.dessert.tpe.repertoiredestagesm2.entities.Contact;
@@ -54,14 +53,17 @@ public class ContactFragment extends Fragment implements ContactAdapter.ContactA
 
     @Override
     public void onClickContact(Contact item, int position) {
-        String phone = item.getTelephone();
-        Intent phoneCall = new Intent(Intent.ACTION_DIAL);
-        phoneCall.setData(Uri.parse("tel:"+phone));
-        try{
-            startActivity(phoneCall);
-        }catch (Exception e){
-            Toast.makeText(getContext(),getString(R.string.erreur_phone), Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this.getContext(), ContactActivity.class);
+        i.putExtra("<Nom>", item.toString());
+        i.putExtra("<Tel>", item.getTelephone());
+        i.putExtra("<Mail>", item.getMail());
+        i.putExtra("<Poste>", item.getPoste());
+        try {
+            i.putExtra("<Entreprise>", item.getEntreprise().getAbbr());
+        } catch (Exception e) {
+            i.putExtra("<Entreprise>", "Non affilié");
         }
+        startActivity(i);
     }
 
 

@@ -4,21 +4,28 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ovh.dessert.tpe.repertoiredestagesm2.adapters.EntrepriseAdapter;
 import ovh.dessert.tpe.repertoiredestagesm2.entities.Entreprise;
+import ovh.dessert.tpe.repertoiredestagesm2.entities.Localisation;
 
 public class EntreListeActivity extends AppCompatActivity implements EntrepriseAdapter.EntrepriseAdapterListener {
 
     protected List<String> data;
+    private ArrayList<Localisation> localisations;
+    private String dist, ville;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -27,7 +34,7 @@ public class EntreListeActivity extends AppCompatActivity implements EntrepriseA
         Intent intent = getIntent();
 
         // Dans le cas où une personne veut chercher un stage partout dans le monde, on modifie la valeur de cette dernière pour que la recherche fonctionne.
-        String dist = intent.getStringExtra("<Distance>");
+        dist = intent.getStringExtra("<Distance>");
         if(dist.equals("Partout"))
             dist = "20038 km";
 
@@ -35,7 +42,8 @@ public class EntreListeActivity extends AppCompatActivity implements EntrepriseA
         LatLng centre = null;
 
         try {
-            List<Address> list = geo.getFromLocationName(intent.getStringExtra("<City>"), 1);
+            ville = intent.getStringExtra("<City>");
+            List<Address> list = geo.getFromLocationName(ville, 1);
             if (list.size() > 0) {
                 centre = new LatLng(list.get(0).getLatitude(), list.get(0).getLongitude());
             }
@@ -46,7 +54,8 @@ public class EntreListeActivity extends AppCompatActivity implements EntrepriseA
 
 
         try {
-            List<Entreprise> affichage = StagesDAO.getInstance(EntreListeActivity.this).searchEntreprises(EntreListeActivity.this.getApplicationContext(), intent.getStringExtra("<Nom>"), dist, intent.getStringExtra("<City>"), intent.getStringExtra("<Tags>"));
+            this.localisations = new ArrayList<>();
+            List<Entreprise> affichage = StagesDAO.getInstance(EntreListeActivity.this).searchEntreprises(EntreListeActivity.this.getApplicationContext(), localisations, intent.getStringExtra("<Nom>"), dist, intent.getStringExtra("<City>"), intent.getStringExtra("<Tags>"));
             EntrepriseAdapter adapter = new EntrepriseAdapter(this, affichage, centre);
             adapter.addListener(this);
             ListView tl = (ListView) findViewById(R.id.listlayout);
@@ -54,6 +63,31 @@ public class EntreListeActivity extends AppCompatActivity implements EntrepriseA
         } catch(Exception e) {
             Toast.makeText(EntreListeActivity.this, e.toString(), Toast.LENGTH_LONG).show();
             finish();
+        }
+
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_results, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+
+        switch (item.getItemId()){
+            case R.id.carte_search:
+                Intent intent = new Intent(EntreListeActivity.this, SearchMap.class);
+                intent.putExtra("<City>", this.ville);
+                intent.putExtra("<Distance>", this.dist);
+                intent.putParcelableArrayListExtra("<Localisations>", this.localisations);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
 
     }
