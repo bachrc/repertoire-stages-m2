@@ -19,10 +19,14 @@ import ovh.dessert.tpe.repertoiredestagesm2.entities.Localisation;
 */
 public class LocalisationAdapter extends BaseAdapter {
 
+    /**
+     * Ecouteur sur un item de liste Localisation
+     */
     public interface LocalisationAdapterListener {
         public void onClickLocalisation(Localisation item, int position);
     }
 
+    // Liste de localications
     private List<Localisation> localisations;
 
     //Le contexte dans lequel est présent notre adapter
@@ -31,8 +35,15 @@ public class LocalisationAdapter extends BaseAdapter {
     //Un mécanisme pour gérer l'affichage graphique depuis un layout XML
     private LayoutInflater mInflater;
 
+    // Liste d'écouteurs de localisations
     private List<LocalisationAdapterListener> mListener;
 
+
+    /**
+     * Crée un adapter, pour afficher une liste de localisations.
+     * @param context Le contexte associé à l'utilisation de l'adapter
+     * @param localisations La liste de localisations
+     */
     public LocalisationAdapter(Context context, List<Localisation> localisations) {
         this.mContext = context;
         this.localisations = localisations;
@@ -40,31 +51,42 @@ public class LocalisationAdapter extends BaseAdapter {
         this.mListener = new ArrayList<>();
     }
 
-    /*public LocalisationAdapter(Context context) {
-        try {
-            this.localisations = StagesDAO.getInstance(context).getAllLocalisations();
-        }catch(Exception e) {
-            this.localisations = new ArrayList<>();
-        }finally {
-            this.mContext = context;
-            this.mInflater = LayoutInflater.from(mContext);
-        }
-    }*/
+    /**
+     * Renvoie le nombre de localisations
+     * @return Nombre de localisations présents
+     */
     @Override
     public int getCount() {
         return this.localisations.size();
     }
 
+    /**
+     * Renvoie une localisation à une position donnée
+     * @param position Une position particulière
+     * @return La localisation qui se trouve à cette position
+     */
     @Override
     public Object getItem(int position) {
         return this.localisations.get(position);
     }
 
+    /**
+     * Renvoie un ID associé à la liste de localisations
+     * @param position Une position
+     * @return L'ID de l'objet à cette position
+     */
     @Override
     public long getItemId(int position) {
         return position;
     }
 
+    /**
+     * Affiche un item de liste.
+     * @param position la position de l'item
+     * @param convertView
+     * @param parent
+     * @return Un item de liste formaté selon un layout prédéfini.
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LinearLayout item;
@@ -76,6 +98,7 @@ public class LocalisationAdapter extends BaseAdapter {
             item = (LinearLayout) convertView;
         }
 
+        // On affiche l'adresse et prépare les taps sur la carte.
         adresse = (TextView) item.findViewById(R.id.localisation);
         String adr = localisations.get(position).getAdresse();
         adresse.setText(adr);
@@ -93,6 +116,10 @@ public class LocalisationAdapter extends BaseAdapter {
         return item;
     }
 
+    /**
+     * Ajoute un écouteur de localisation
+     * @param localisationAdapterListener L'écouteur de localisation
+     */
     public void addListener(LocalisationAdapterListener localisationAdapterListener){
         mListener.add(localisationAdapterListener);
     }

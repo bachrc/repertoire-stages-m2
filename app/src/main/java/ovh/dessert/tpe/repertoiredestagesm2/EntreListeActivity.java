@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -27,6 +26,10 @@ public class EntreListeActivity extends AppCompatActivity implements EntrepriseA
     private ArrayList<Localisation> localisations;
     private String dist, ville;
 
+    /**
+     * Crée une activité qui affiche la liste des entreprises par recherche.
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -41,6 +44,7 @@ public class EntreListeActivity extends AppCompatActivity implements EntrepriseA
         Geocoder geo = new Geocoder(this);
         LatLng centre = null;
 
+        // On récupère le point central de la recherche ainsi que la liste d'entreprises rentrant dans un rayon.
         try {
             ville = intent.getStringExtra("<City>");
             List<Address> list = geo.getFromLocationName(ville, 1);
@@ -50,8 +54,6 @@ public class EntreListeActivity extends AppCompatActivity implements EntrepriseA
         }catch(Exception e){
             Log.d("Erreur", e.getLocalizedMessage());
         }
-
-
 
         try {
             this.localisations = new ArrayList<>();
@@ -67,17 +69,25 @@ public class EntreListeActivity extends AppCompatActivity implements EntrepriseA
 
     }
 
+    /**
+     * Prépare les boutons d'affichage sur le menu supérieur.
+     * @param menu Le menu supérieur
+     * @return true
+     */
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_results, menu);
         return true;
     }
 
+    /**
+     * Lance une activité différence sur tap d'un bouton du menu.
+     * @param item L'item du menu supérieur
+     * @return true, si l'activité a été lancée.
+     */
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
+        // On gère les taps sur les différents boutons de la barre de menu. Ici, on n'a que la carte de
+        // disponible, et un tap sur l'icône de carte ouvrira la carte ainsi que les différentes localisations présentes.
         switch (item.getItemId()){
             case R.id.carte_search:
                 Intent intent = new Intent(EntreListeActivity.this, SearchMap.class);
@@ -92,7 +102,11 @@ public class EntreListeActivity extends AppCompatActivity implements EntrepriseA
 
     }
 
-
+    /**
+     * Lance une activité de détails d'entreprise sur l'item correspondant.
+     * @param item L'item de la liste
+     * @param position La position de cet item
+     */
     @Override
     public void onClickEntreprise(Entreprise item, int position) {
         Intent intent = new Intent(EntreListeActivity.this, TabbedActivity.class);

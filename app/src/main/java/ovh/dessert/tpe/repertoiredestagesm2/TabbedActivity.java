@@ -41,32 +41,47 @@ public class TabbedActivity extends AppCompatActivity {
     protected ArrayList<Stage> stages;
     protected String site;
 
+    /**
+     * Crée l'activité contenant les détails de l'entreprise.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabbed);
 
+        // On récupère le code entreprise
         entCode = getIntent().getStringExtra("<Code>");
+
+        // Le site web
         try {
             site = StagesDAO.getInstance(this).getEntreprise(entCode).getSiteweb();
         } catch (Exception e) {
             site = "Aucun site";
         }
+
+        // Le nom de l'entreprise
         try {
             entName = StagesDAO.getInstance(this).getEntreprise(entCode).getNom();
         } catch (Exception e) {
             entName = "Aucun nom";
         }
+
+        // Les localisations des différents sites
         try {
             locs = (ArrayList<Localisation>) StagesDAO.getInstance(this).getEntreprise(entCode).getLocalisations();
         } catch (Exception e) {
             locs = new ArrayList<>();
         }
+
+        // Les contacts
         try {
             conts = (ArrayList<Contact>) StagesDAO.getInstance(this).getEntreprise(entCode).getContacts();
         } catch (Exception e) {
             conts = new ArrayList<>();
         }
+
+        // Les stages effectués.
         try {
             stages = (ArrayList<Stage>) StagesDAO.getInstance(this).getEntreprise(entCode).getStages();
         } catch (Exception e) {
@@ -97,6 +112,11 @@ public class TabbedActivity extends AppCompatActivity {
             super(fm);
         }
 
+        /**
+         * Récupère le fragment associé à la position du tab actif.
+         * @param position La position du tab actif.
+         * @return Une instance d'un fragment.
+         */
         @Override
         public Fragment getItem(int position) {
             switch (position){
@@ -107,12 +127,21 @@ public class TabbedActivity extends AppCompatActivity {
             }
         }
 
+        /**
+         * Renvoie le nombre de pages.
+         * @return Le nombre de pages
+         */
         @Override
         public int getCount() {
             // Show 3 total pages.
             return 3;
         }
 
+        /**
+         * Renvoie le nom du tab.
+         * @param position La position du tab actif
+         * @return Le nom du tab actif.
+         */
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {

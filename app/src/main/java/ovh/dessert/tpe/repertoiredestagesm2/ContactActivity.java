@@ -15,21 +15,27 @@ public class ContactActivity extends AppCompatActivity {
 
     private String ent_code, tel;
 
+    /**
+     * Crée une activité contenant des détails sur un contact particulier.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
 
-        String nom, mail, poste;
+        String nom, mail, poste; // Nom, mail et poste du contact
         TextView nomT, mailT, posteT;
         LinearLayout telT;
 
+        // On récupère le numéro de téléphone du contact, et on le met dans un textview.
         tel = (getIntent().getStringExtra("<Tel>") == null ? "Non renseigné" : getIntent().getStringExtra("<Tel>"));
         telT = (LinearLayout) findViewById(R.id.phone_contact);
         if(telT != null){
             TextView phoneT = (TextView) findViewById(R.id.phone_contact_tv);
             if(phoneT != null){
                 phoneT.setText("Téléphone : " + tel);
+                // Le layout contenant le numéro de téléphone ainsi qu'une icône d'appel contiendra l'écouteur pour ouvrir le téléphone.
                 telT.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v) {
@@ -45,6 +51,7 @@ public class ContactActivity extends AppCompatActivity {
             }
         }
 
+        // On récupère le nom, et le mail du contact et les met dans leurs textviews.
         nom = (getIntent().getStringExtra("<Nom>") == null ? "Non renseigné" : getIntent().getStringExtra("<Nom>"));
         nomT = (TextView) findViewById(R.id.nom_contact);
         if(nomT != null){
@@ -57,6 +64,9 @@ public class ContactActivity extends AppCompatActivity {
             mailT.setText("Mail : " + mail);
         }
 
+        // On récupère le poste du contact ainsi que son entreprise. Si le poste est absent, on affiche "Travaille à...".
+        // Si le nom de l'entreprise est absent, on le note en tant que non affilié. Si la BDD plante, il sera non affilié
+        // par défaut.
         try{
             poste = (getIntent().getStringExtra("<Poste>") == null ? "Travaille" : getIntent().getStringExtra("<Poste>"));
             if (getIntent().getStringExtra("<Entreprise>") != null || !getIntent().getStringExtra("<Entreprise>").equals("\"Non affilié\"")){
@@ -70,6 +80,8 @@ public class ContactActivity extends AppCompatActivity {
             poste = "Non affilié";
         }
 
+        // Et on affiche le poste dans le textview qui correspond. On souligne et accentue le nom de l'entreprise pour
+        // indiquer à l'utilisateur qu'une action est possible.
         posteT = (TextView) findViewById(R.id.poste_contact);
         if (posteT != null) {
             posteT.setText(poste);

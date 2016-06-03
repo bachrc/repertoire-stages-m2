@@ -1,7 +1,6 @@
 package ovh.dessert.tpe.repertoiredestagesm2;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -33,6 +32,10 @@ public class SearchMap extends FragmentActivity implements OnMapReadyCallback, G
     private ArrayList<Localisation> localisations;
     private HashMap<Marker, String> markers;
 
+    /**
+     * Crée une activité de carte GMaps.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +77,10 @@ public class SearchMap extends FragmentActivity implements OnMapReadyCallback, G
         mapFragment.getMapAsync(this);
     }
 
+    /**
+     * Prépare une carte contenant les entreprises (présentes dans un rayon si cette carte est appelée depuis une recherche par distance).
+     * @param googleMap La carte à utiliser pour mettre les différents marqueurs.
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -116,6 +123,10 @@ public class SearchMap extends FragmentActivity implements OnMapReadyCallback, G
 
     }
 
+    /**
+     * Lance une activité de détails d'entreprises au tap d'une infobulle.
+     * @param marker Le marqueur de l'entreprise.
+     */
     @Override
     public void onInfoWindowClick(Marker marker) {
         Intent intent = new Intent(SearchMap.this, TabbedActivity.class);
