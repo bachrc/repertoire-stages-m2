@@ -9,15 +9,22 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ovh.dessert.tpe.repertoiredestagesm2.MainMenuActivity">
 
-    <TextView
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:id="@+id/logo"
+        android:src="@drawable/logo_accueil"
+        android:gravity="center" />
+
+    <!--TextView     
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:id="@+id/logo"
         android:textSize="30sp"
-        android:text="REPERTOIRE DE STAGES M2 (placeholder)"
+        android:drawableTop="@mipmap/mainmenu_logo"
         android:textAlignment="center"
         android:gravity="center"
-        />
+        /-->
 
     <RelativeLayout
         android:layout_below="@id/logo"
